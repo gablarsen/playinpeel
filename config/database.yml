@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+  password: gabHeather123
+
+development:
+  <<: *default
+  database: <%= Rails.application.config.settings.app_name %>_development
+
+test:
+  <<: *default
+  database: <%= Rails.application.config.settings.app_name %>_test
+
+production:
+  <<: *default
+  database: <%= Rails.application.config.settings.app_name %>_production
+

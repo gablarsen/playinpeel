@@ -1,0 +1,1902 @@
+.container{"data-bind" => "visible: isListVisible"}
+  / Header Start
+  .row
+    .col-md-2.col-sm-3.col-xs-3
+      %img.logo{:src => "/styles/images/PLAY_logo.png"}/
+      %button.btn.btn-info.btn-top-search.btn-search.visible-xs{"data-bind" => "click: doSearch", "data-loading-text" => "loading...", :style => "margin-top:4px"} Search
+    .col-md-8.col-sm-6.col-xs-9.form-horizontal
+      .form-group
+        .col-md-12
+          .input-group
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-map-marker
+            %input#address.form-control{"data-bind" => "value: searchOptions().address,  popover: '#addressSuggestionTemplate', event: { keyup: searchOptions().addressChanged }", "data-original-title" => "", :placeholder => "Address...", :title => "", :type => "text"}/
+      .form-group
+        .col-md-12
+          .input-group
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-search
+            %input#searchKeywords.form-control{"data-bind" => "value: searchOptions().keywords ,event: {keyup: submitOnEnter}", :placeholder => "Keyword search...", :type => "search"}/
+    .col-md-2.col-sm-3.col-xs-12.hidden-xs
+      %button.btn.btn-info.btn-top-search.btn-search{"data-bind" => "click: doSearch", "data-loading-text" => "loading..."} Search
+  .row
+    .col-md-2.col-sm-2.visible-md.visible-lg
+      .addthis_toolbox.addthis_default_style.addthis_32x32_style.add_this.share-box
+        %a.addthis_button_facebook.at300b{:href => "#", :title => "Facebook"}
+          %span.at300bs.at15nc.at15t_facebook
+            %span.at_a11y Share on facebook
+        %a.addthis_button_twitter.at300b{:href => "#", :title => "Tweet"}
+          %span.at300bs.at15nc.at15t_twitter
+            %span.at_a11y Share on twitter
+        %a.addthis_button_google.at300b{:href => "http://www.addthis.com/bookmark.php?v=300&winname=addthis&pub=ra-5255efe73c7b0462&source=tbx32-300&lng=en&s=google&url=http%3A%2F%2Fplayinpeel.org%2F%23Details%2F544166e67243aa22884f9cbd&title=Recital%20Jazz%20Level%201%20-%20Dance%2C%20Drama%2C%20Music%20-%20Play%20in%20Peel%20by%20%40PCYI_Org&ate=AT-ra-5255efe73c7b0462/-/-/54d4991de17b02f7/27/54cff4b6faf60ce1&frommenu=1&uid=54cff4b6faf60ce1&trackurl=http%3A%2F%2Fplayinpeel.org%2F&ct=1&uct=1&tt=0&captcha_provider=nucaptcha", :target => "_blank", :title => "Google"}
+          %span.at300bs.at15nc.at15t_google
+            %span.at_a11y Share on google
+        %a.addthis_button_compact.at300m{:href => "#"}
+          %span.at300bs.at15nc.at15t_compact
+            %span.at_a11y More Sharing Services
+        .atclear{:tabindex => "1000"}
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+        .atclear
+    .col-md-9.col-xs-12.intro
+      %blockquote
+        .small-font-size.hidden-xs Play in Peel is a web app that allows you to search for recreation, arts, culture and library activities in the City of Mississauga, the City of Brampton and the town of Caledon. Access on your computer, smart phone or tablet to enter your search terms and click to see what’s available.
+        %small
+          Brought to you by the
+          %strong Peel Children and Youth Initiative
+          in partnership with
+          %strong Microsoft
+  / Header End
+%hr.page-break{"data-bind" => "visible: isListVisible"}/
+.container.search-container{"data-bind" => "visible: isListVisible"}
+  .row
+    .col-md-2.col-sm-3.col-xs-12
+      / Search Options Start
+      .well.well-sm.search-options
+        .title
+          %i#expand-search-options.glyphicon.glyphicon-minus
+          Options
+          %i#search-tooltip.glyphicon.glyphicon-question-sign{"data-original-title" => "", :title => ""}
+        %hr.divider/
+        #all-search-options{:style => "display: block;"}
+          %div Age:
+          %div{:style => "float:left;margin-right:30px"}
+            From:
+            %span{"data-bind" => "text: searchOptions().ageFrom()"} 0
+          %div
+            To:
+            %span{"data-bind" => "text: searchOptions().displayAgeTo()"} 55+
+          #ageRange.search-slider.ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all{"aria-disabled" => "false"}
+            .ui-slider-range.ui-widget-header.ui-corner-all{:style => "left: 0%; width: 100%;"}
+            %a.ui-slider-handle.ui-state-default.ui-corner-all{:href => "#", :style => "left: 0%;"}
+            %a.ui-slider-handle.ui-state-default.ui-corner-all{:href => "#", :style => "left: 100%;"}
+          %hr.divider/
+          %div Date Range:
+          .input-group{"data-bind" => "attr: { 'data-date': searchOptions().dateFrom() }", "data-date" => "02-06-2015"}
+            %input#dateFrom.form-control.input-sm{"data-bind" => "value: searchOptions().dateFrom()", :placeholder => "from...", :type => "text"}/
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-calendar
+          .input-group{"data-bind" => "attr: { 'data-date': searchOptions().dateTo() }", "data-date" => "03-08-2015"}
+            %input#dateTo.form-control.input-sm{"data-bind" => "value: searchOptions().dateTo()", :placeholder => "to...", :type => "text"}/
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-calendar
+          %hr.divider/
+          %div Activity Type:
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Registration"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().activityTypes()[0].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Drop-In"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().activityTypes()[1].checked", :type => "checkbox"}/
+          %hr.divider/
+          %div Time of Day:
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "AM"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().timesOfDay()[0].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "PM"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().timesOfDay()[1].checked", :type => "checkbox"}/
+          %hr.divider/
+          %div Days:
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Monday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[0].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Tuesday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[1].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Wednesday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[2].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Thursday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[3].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Friday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[4].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Saturday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[5].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Sunday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[6].checked", :type => "checkbox"}/
+          %hr.divider/
+          %button#searchbtn2.btn.btn-info.btn-search{"data-bind" => "click: doSearch", "data-loading-text" => "loading...", :type => "submit"} Apply..
+          .clear
+      / Search Options End
+    .col-md-10.col-sm-9.col-xs-12
+      #page-message{:style => "display: none;"}
+      #activities-result.activities{"data-bind" => "foreach: activities, visible: activities().length > 0", :style => ""}
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 24, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 29, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 6:15:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 7:15:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Jazz Level 1 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} For those with little or no dance experience.  Participants must be the required age by the program start date....
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Churchill Meadows Branch Library & Activity Centre
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 3801 Thomas St Mississauga On L5M-7G2
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=3801 Thomas St Mississauga On L5M-7G2", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 23, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Jun 23, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 5:30:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 6:30:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Basketball 9 -11 All Year (Sept To June) - Sports & Athletics
+            %p{"data-bind" => "text: Description.trimToLength(150)"} This coed basketball program will offer a mix of instruction and game play.  Participants will be introduced to a series of progressive, age appropria...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Clarkson Community Centre  Pool Arena & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2475 Truscott Dr Mississauga On L5J-2B3
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2475 Truscott Dr Mississauga On L5J-2B3", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 23, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Jun 23, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 4:30:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 5:30:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Basketball 6-8  All Year (Sept To June) - Sports & Athletics
+            %p{"data-bind" => "text: Description.trimToLength(150)"} This coed basketball program will offer a mix of instruction and game play.  Participants will be introduced to a series of progressive, age appropria...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Clarkson Community Centre  Pool Arena & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2475 Truscott Dr Mississauga On L5J-2B3
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2475 Truscott Dr Mississauga On L5J-2B3", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 24, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 29, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 8:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 9:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Teen Jazz Advanced - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Must have completed Teen Jazz Intermediate.  Participants must be the required age by the end of the current calendar year.target='_blank'>More inform...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 24, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 29, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 7:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 8:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Teen Jazz Intermediate - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} For those who have completed Recital Jazz Level 4 or Recital Teen Jazz Beginner.  Participants must be the required age by the end of the current cale...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 21, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 26, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 4:15:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 5:15:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Teen Dance Conditioning - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Condition and Strengthen your body in this program designed for dancers.  Students will increase their flexibility and endurance to help them with the...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 21, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 26, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 2:15:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 3:15:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Teen Ballet Intermediate - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} For those who have completed Recital Ballet Level 3 or Recital Teen Ballet Beginner.  Participants must be the required age by the end of the current ...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 21, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 26, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 3:15:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 4:15:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Teen Ballet Advanced - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} For those who have completed Recital Teen Ballet Intermediate.  Participants must be the required age by the end of the current calendar year....
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 24, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 29, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 5:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 6:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Little Jazzers - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} This is the perfect program for a child that loves to dance.  This introductory jazz class focuses on creative movement and basic jazz skills.  Studen...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 26, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} May 1, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 5:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 6:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Little Ballerinas - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Does your little one dream if being a ballerina?  This introductory ballet class focuses on creative movement and basic ballet skills.  Students will ...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 21, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 26, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 12:15:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 1:15:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Little Ballerinas - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Does your little one dream if being a ballerina?  This introductory ballet class focuses on creative movement and basic ballet skills.  Students will ...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 24, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 29, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 6:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 7:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Jazz Level 1 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} For those with little or no dance experience.  Participants must be the required age by the program start date....
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 26, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 30, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 8:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 9:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Ballet Level 3 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Must have completed Recital Ballet Level 1....
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 26, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} May 1, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 7:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 8:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Ballet Level 2 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Must have completed Recital Ballet Level 1....
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 21, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 26, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 1:15:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 2:15:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Ballet Level 1 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} For those with little or no dance experience.  Participants must be the required age by the program start date. More information...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 25, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 30, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 8:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 9:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Acro Senior Level 2 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Must have completed Acro Senior Level 1 or Acro Senior Level 2.  A minimum of two years of dance (ballet or jazz) is required. Participants must be th...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 25, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 30, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 7:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 8:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Acro Senior Level 1 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Acro incorporates flexibility along with jazz and ballet moves, creating a unique style of dance.  Strengthening exercises along with the development ...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 25, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 30, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 6:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 7:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Acro Junior Level 2 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Must have completed Recital Acro Junior Level 1. A minimum of two years of dance experience (ballet or jazz) is required.  Participants must be the re...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 25, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} Apr 30, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 5:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 6:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Acro Junior Level 1 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} Acro incorporates flexibility along with jazz and ballet moves, creating a unique style of dance.  Strengthening exercises along with the development ...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+        .row.activity{"data-bind" => "click: $root.goToActivity"}
+          .col-md-3.col-sm-4.schedule.link
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(SelectedTime.StartDate)"} Sep 26, 2014
+              \-
+              %span{"data-bind" => "text: displayDate(SelectedTime.EndDate)"} May 1, 2015
+            .days
+              %span{"data-bind" => "visible: SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: SelectedTime.Wednesday", :style => "display: none;"} Wednesdays,
+              %span{"data-bind" => "visible: SelectedTime.Thursday"} Thursdays,
+              %span{"data-bind" => "visible: SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(SelectedTime.StartDate)"} 6:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(SelectedTime.EndDate)"} 7:00:00 am
+            %span.clickable{"data-bind" => "visible: Times.length > 1", :style => "display: none;"} More dates available
+          .col-md-6.col-sm-8.info1.linkclass
+            %h4
+              %span.clickable{"data-bind" => "html: Name"} Recital Ballet Level 1 - Dance, Drama, Music
+            %p{"data-bind" => "text: Description.trimToLength(150)"} For those with little or no dance experience.  Participants must be the required age by the program start date. More information...
+            .hidden-xs
+              %span.label.label-primary{"data-bind" => "visible: DropIn", :style => "display: none;"} DROP-IN
+              %span.clickable.pull-right more details
+          .col-md-3.col-sm-13.info2
+            %p
+              At
+              %strong{"data-bind" => "text: Resource.Facility.Name"} Erin Meadows Community Centre Pool & Library
+              %br/
+              %span{"data-bind" => "text: Resource.Facility.Address"} 2800 Erin Centre Blvd Mississauga On L5M-6R5
+              %br/
+              %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=2800 Erin Centre Blvd Mississauga On L5M-6R5", :target => "_blank"} map
+            .pull-right.visible-xs
+              %span.label.label-primary DROP-IN
+              %span.clickable more details
+%script{:async => "", :src => "//www.google-analytics.com/analytics.js"}
+%script#addressSuggestionTemplate{:type => "html/text"}
+  :cdata
+    <h4>We found many of these... Which one should we use?</h4>
+    <div data-bind='foreach:$data.searchOptions().possibleAddresses'>
+    <div class="single-address-suggestion">
+    <span class="clickable" style='color:black' data-bind='text:name, click:$parent.setManualAddress'></span>
+    </div>
+    </div>
+.details-header{"data-bind" => "visible: !isListVisible(), with: details()", :style => "display: none;"}
+%script{:src => "http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"}
+%script{:src => "http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.js"}
+%script{:src => "http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"}
+%script{:charset => "UTF-8", :src => "http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0", :type => "text/javascript"}
+%script{:src => "http://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20141118162111.86/js/en-us/veapicore.js", :type => "text/javascript"}
+%script{:src => "./scripts/libs/bootstrap-datepicker.js"}
+%script{:src => "./scripts/libs/moment.js"}
+%script{:src => "./scripts/libs/sammy.js"}
+%script{:src => "./scripts/libs/sammy.googleanalytics.js"}
+%script{:src => "./scripts/libs/bootstrap.min.js"}
+%script{:src => "./scripts/app/common.js"}
+%script{:src => "./scripts/app/appMainModel.js"}
+%script{:src => "./scripts/app/detailsModel.js"}
+%script{:src => "./scripts/app/searchOptions.js"}
+%script{:src => "./scripts/app/navigation.js"}
+%script{:src => "./scripts/pcyi-main.js"}
+:javascript
+  var addthis_config = { "data_track_addressbar": true };
+%script{:src => "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5255efe73c7b0462", :type => "text/javascript"}
+#_atssh{:style => "visibility: hidden; height: 1px; width: 1px; position: absolute; top: -9999px; z-index: 100000;"}
+  %iframe#_atssh516{:src => "//s7.addthis.com/static/r07/sh186.html#iit=1423218973833&tmr=load%3D1423218973721%26core%3D1423218973816%26main%3D1423218973829%26ifr%3D1423218973837&cb=0&cdn=0&kw=&ab=-&dh=playinpeel.org&dr=&du=http%3A%2F%2Fplayinpeel.org%2F&dt=Play%20in%20Peel%20-%20Recreation%20Activities%20App%20for%20the%20cities%20of%20Mississauga%20and%20the%20City%20of%20Brampton%20by%20%40PCYI_Org&dbg=0&cap=tc%3D0%26ab%3D1&inst=1&jsl=1&prod=undefined&lng=en-us&ogt=title&pc=men&pub=ra-5255efe73c7b0462&ssl=0&sid=54d4991de17b02f7&srpl=1&srcs=1&srd=1&srf=1&srx=1&ver=300&xck=0&xtr=0&og=title%3DPlay%2520in%2520Peel&aa=0&csi=undefined&toLoJson=uvs%3D54d4991d1adaf7b1000%26chr%3DUTF-8%26md%3D0%26vcl%3D1&rev=15.1&ct=1&xld=1&xd=1", :style => "height: 1px; width: 1px; position: absolute; top: 0px; z-index: 100000; border: 0px; left: 0px;", :title => "AddThis utility frame"}
+%script{:src => "http://s7.addthis.com/static/r07/core181.js", :type => "text/javascript"}
+:javascript
+  (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+  ga('create', 'UA-44673719-1', 'playinpeel.org');
+.datepicker.dropdown-menu
+  .datepicker-days{:style => "display: block;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} February 2015
+          %th.next ›
+        %tr
+          %th.dow Su
+          %th.dow Mo
+          %th.dow Tu
+          %th.dow We
+          %th.dow Th
+          %th.dow Fr
+          %th.dow Sa
+      %tbody
+        %tr
+          %td.day.old 25
+          %td.day.old 26
+          %td.day.old 27
+          %td.day.old 28
+          %td.day.old 29
+          %td.day.old 30
+          %td.day.old 31
+        %tr
+          %td.day 1
+          %td.day 2
+          %td.day 3
+          %td.day 4
+          %td.day 5
+          %td.day.active 6
+          %td.day 7
+        %tr
+          %td.day 8
+          %td.day 9
+          %td.day 10
+          %td.day 11
+          %td.day 12
+          %td.day 13
+          %td.day 14
+        %tr
+          %td.day 15
+          %td.day 16
+          %td.day 17
+          %td.day 18
+          %td.day 19
+          %td.day 20
+          %td.day 21
+        %tr
+          %td.day 22
+          %td.day 23
+          %td.day 24
+          %td.day 25
+          %td.day 26
+          %td.day 27
+          %td.day 28
+        %tr
+          %td.day.new 1
+          %td.day.new 2
+          %td.day.new 3
+          %td.day.new 4
+          %td.day.new 5
+          %td.day.new 6
+          %td.day.new 7
+  .datepicker-months{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2015
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.month Jan
+            %span.month.active Feb
+            %span.month Mar
+            %span.month Apr
+            %span.month May
+            %span.month Jun
+            %span.month Jul
+            %span.month Aug
+            %span.month Sep
+            %span.month Oct
+            %span.month Nov
+            %span.month Dec
+  .datepicker-years{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2010-2019
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.year.old 2009
+            %span.year 2010
+            %span.year 2011
+            %span.year 2012
+            %span.year 2013
+            %span.year 2014
+            %span.year.active 2015
+            %span.year 2016
+            %span.year 2017
+            %span.year 2018
+            %span.year 2019
+            %span.year.old 2020
+.datepicker.dropdown-menu
+  .datepicker-days{:style => "display: block;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} March 2015
+          %th.next ›
+        %tr
+          %th.dow Su
+          %th.dow Mo
+          %th.dow Tu
+          %th.dow We
+          %th.dow Th
+          %th.dow Fr
+          %th.dow Sa
+      %tbody
+        %tr
+          %td.day.old 22
+          %td.day.old 23
+          %td.day.old 24
+          %td.day.old 25
+          %td.day.old 26
+          %td.day.old 27
+          %td.day.old 28
+        %tr
+          %td.day 1
+          %td.day 2
+          %td.day 3
+          %td.day 4
+          %td.day 5
+          %td.day 6
+          %td.day 7
+        %tr
+          %td.day.active 8
+          %td.day 9
+          %td.day 10
+          %td.day 11
+          %td.day 12
+          %td.day 13
+          %td.day 14
+        %tr
+          %td.day 15
+          %td.day 16
+          %td.day 17
+          %td.day 18
+          %td.day 19
+          %td.day 20
+          %td.day 21
+        %tr
+          %td.day 22
+          %td.day 23
+          %td.day 24
+          %td.day 25
+          %td.day 26
+          %td.day 27
+          %td.day 28
+        %tr
+          %td.day 29
+          %td.day 30
+          %td.day 31
+          %td.day.new 1
+          %td.day.new 2
+          %td.day.new 3
+          %td.day.new 4
+  .datepicker-months{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2015
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.month Jan
+            %span.month Feb
+            %span.month.active Mar
+            %span.month Apr
+            %span.month May
+            %span.month Jun
+            %span.month Jul
+            %span.month Aug
+            %span.month Sep
+            %span.month Oct
+            %span.month Nov
+            %span.month Dec
+  .datepicker-years{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2010-2019
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.year.old 2009
+            %span.year 2010
+            %span.year 2011
+            %span.year 2012
+            %span.year 2013
+            %span.year 2014
+            %span.year.active 2015
+            %span.year 2016
+            %span.year 2017
+            %span.year 2018
+            %span.year 2019
+            %span.year.old 2020
+#at20mc{:style => "z-index: 1000000;"}
+  #at16lb{:onclick => "return _atw.clb()"}
+  #at16pcc
+    #at16p{:style => "display: none;"}
+      %a{:name => "atpro"}
+      %a{:name => "atclb"}
+      %a{:name => "atopp"}
+      %a{:name => "atcle"}
+      %a{:name => "atcef"}
+      #at16pib
+        #at16pi
+          #at16pp{:style => "display:none"}
+          #at16pm
+            #at16pt
+              %h4
+                %span#at16ptc Bookmark & Share
+              %span#at16_brand
+              %a#at16ptx{:href => "#", :onclick => "return _atw.clb()", :tabindex => "9000"}
+                X
+                %span.at_a11y Close AddThis Expanded Menu
+            #at16pc
+              #at_feed{:style => "display: none;"}
+                %span{:style => "display:block"} Select from these web-based feed readers:
+                %br/
+                %div{:onclick => "return addthis_sendto('aol');"}
+                  %a.fbtn.at_baa.aol AOL
+                .at_litem{:onclick => "return addthis_sendto('bloglines');"}
+                  %a.fbtn.at_baa.bloglines Bloglines
+                %div{:onclick => "return addthis_sendto('mymsn');"}
+                  %a.fbtn.at_baa.mymsn My MSN
+                .at_litem{:onclick => "return addthis_sendto('netvibes');"}
+                  %a.fbtn.at_baa.netvibes Netvibes
+                %div{:onclick => "return addthis_sendto('newsisfree');"}
+                  %a.fbtn.at_baa.newsisfree Newsisfree
+                .at_litem{:onclick => "return addthis_sendto('pageflakes');"}
+                  %a.fbtn.at_baa.pageflakes Pageflakes
+                %div{:onclick => "return addthis_sendto('yahoo');"}
+                  %a.fbtn.at_baa.yahoo Yahoo
+              #at_share{:style => "display: none;"}
+                #at16psf{:style => "display: none; visibility: hidden;"}
+                  %label.at_a11y{:for => "at16filt"} Sharing Service Filter
+                  %input#at16filt{:maxlength => "50", :name => "at16filt", :onkeyup => "_atw.filt(this.value,_atw.list,false,'ati_','at16nms','a');_atw.uus()", :size => "30", :style => "padding:2px 0 0", :tabindex => "1", :type => "text"}/
+                #at16ps.addthis_32x32_style
+                  #at16nms{:style => "display:none"} No matching services.
+                  %a#ati_dotnetshoutout.at_item{:href => "javascript:return addthis_sendto('dotnetshoutout');", :onclick => "return addthis_sendto('dotnetshoutout');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "2"}
+                    %span.at15t.at15t_dotnetshoutout .netShoutout
+                  %a#ati_100zakladok.at_item{:href => "javascript:return addthis_sendto('100zakladok');", :onclick => "return addthis_sendto('100zakladok');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "3"}
+                    %span.at16nc.at16t_100zakladok.at16t 100zakladok
+                  %a#ati_2tag.at_item{:href => "javascript:return addthis_sendto('2tag');", :onclick => "return addthis_sendto('2tag');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "4"}
+                    %span.at15t.at15t_2tag 2 Tag
+                  %a#ati_2linkme.at_item{:href => "javascript:return addthis_sendto('2linkme');", :onclick => "return addthis_sendto('2linkme');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "5"}
+                    %span.at15t.at15t_2linkme 2linkme
+                  %a#ati_a97abi.at_item{:href => "javascript:return addthis_sendto('a97abi');", :onclick => "return addthis_sendto('a97abi');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "6"}
+                    %span.at15t.at15t_a97abi A97abi
+                  %a#ati_adfty.at_item{:href => "javascript:return addthis_sendto('adfty');", :onclick => "return addthis_sendto('adfty');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "7"}
+                    %span.at15t.at15t_adfty Adfty
+                  %a#ati_adifni.at_item{:href => "javascript:return addthis_sendto('adifni');", :onclick => "return addthis_sendto('adifni');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "8"}
+                    %span.at16nc.at16t_adifni.at16t Adifni
+                  %a#ati_advqr.at_item{:href => "javascript:return addthis_sendto('advqr');", :onclick => "return addthis_sendto('advqr');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "9"}
+                    %span.at15t.at15t_advqr ADV QR
+                  %a#ati_amazonwishlist.at_item{:href => "javascript:return addthis_sendto('amazonwishlist');", :onclick => "return addthis_sendto('amazonwishlist');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "10"}
+                    %span.at16nc.at16t_amazonwishlist.at16t Amazon
+                  %a#ati_amenme.at_item{:href => "javascript:return addthis_sendto('amenme');", :onclick => "return addthis_sendto('amenme');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "11"}
+                    %span.at15t.at15t_amenme Amen Me!
+                  %a#ati_aolmail.at_item{:href => "javascript:return addthis_sendto('aolmail');", :onclick => "return addthis_sendto('aolmail');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "12"}
+                    %span.at15t.at15t_aolmail AOL Mail
+                  %a#ati_apsense.at_item{:href => "javascript:return addthis_sendto('apsense');", :onclick => "return addthis_sendto('apsense');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "13"}
+                    %span.at15t.at15t_apsense APSense
+                  %a#ati_arto.at_item{:href => "javascript:return addthis_sendto('arto');", :onclick => "return addthis_sendto('arto');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "14"}
+                    %span.at16nc.at16t_arto.at16t Arto
+                  %a#ati_azadegi.at_item{:href => "javascript:return addthis_sendto('azadegi');", :onclick => "return addthis_sendto('azadegi');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "15"}
+                    %span.at15t.at15t_azadegi Azadegi
+                  %a#ati_baang.at_item{:href => "javascript:return addthis_sendto('baang');", :onclick => "return addthis_sendto('baang');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "16"}
+                    %span.at15t.at15t_baang Baang
+                  %a#ati_baidu.at_item{:href => "javascript:return addthis_sendto('baidu');", :onclick => "return addthis_sendto('baidu');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "17"}
+                    %span.at16nc.at16t_baidu.at16t Baidu
+                  %a#ati_balltribe.at_item{:href => "javascript:return addthis_sendto('balltribe');", :onclick => "return addthis_sendto('balltribe');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "18"}
+                    %span.at15t.at15t_balltribe BallTribe
+                  %a#ati_beat100.at_item{:href => "javascript:return addthis_sendto('beat100');", :onclick => "return addthis_sendto('beat100');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "19"}
+                    %span.at15t.at15t_beat100 Beat100
+                  %a#ati_biggerpockets.at_item{:href => "javascript:return addthis_sendto('biggerpockets');", :onclick => "return addthis_sendto('biggerpockets');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "20"}
+                    %span.at15t.at15t_biggerpockets BiggerPockets
+                  %a#ati_bitly.at_item{:href => "javascript:return addthis_sendto('bitly');", :onclick => "return addthis_sendto('bitly');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "21"}
+                    %span.at16nc.at16t_bitly.at16t Bit.ly
+                  %a#ati_bizsugar.at_item{:href => "javascript:return addthis_sendto('bizsugar');", :onclick => "return addthis_sendto('bizsugar');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "22"}
+                    %span.at15t.at15t_bizsugar BizSugar
+                  %a#ati_bland.at_item{:href => "javascript:return addthis_sendto('bland');", :onclick => "return addthis_sendto('bland');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "23"}
+                    %span.at15t.at15t_bland Bland takkinn
+                  %a#ati_blinklist.at_item{:href => "javascript:return addthis_sendto('blinklist');", :onclick => "return addthis_sendto('blinklist');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "24"}
+                    %span.at15t.at15t_blinklist Blinklist
+                  %a#ati_blogger.at_item{:href => "javascript:return addthis_sendto('blogger');", :onclick => "return addthis_sendto('blogger');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "25"}
+                    %span.at16nc.at16t_blogger.at16t Blogger
+                  %a#ati_bloggy.at_item{:href => "javascript:return addthis_sendto('bloggy');", :onclick => "return addthis_sendto('bloggy');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "26"}
+                    %span.at16nc.at16t_bloggy.at16t Bloggy
+                  %a#ati_blogkeen.at_item{:href => "javascript:return addthis_sendto('blogkeen');", :onclick => "return addthis_sendto('blogkeen');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "27"}
+                    %span.at15t.at15t_blogkeen Blogkeen
+                  %a#ati_blogmarks.at_item{:href => "javascript:return addthis_sendto('blogmarks');", :onclick => "return addthis_sendto('blogmarks');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "28"}
+                    %span.at15t.at15t_blogmarks Blogmarks
+                  %a#ati_blurpalicious.at_item{:href => "javascript:return addthis_sendto('blurpalicious');", :onclick => "return addthis_sendto('blurpalicious');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "29"}
+                    %span.at15t.at15t_blurpalicious Blurpalicious
+                  %a#ati_bobrdobr.at_item{:href => "javascript:return addthis_sendto('bobrdobr');", :onclick => "return addthis_sendto('bobrdobr');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "30"}
+                    %span.at16nc.at16t_bobrdobr.at16t Bobrdobr
+                  %a#ati_bonzobox.at_item{:href => "javascript:return addthis_sendto('bonzobox');", :onclick => "return addthis_sendto('bonzobox');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "31"}
+                    %span.at15t.at15t_bonzobox BonzoBox
+                  %a#ati_socialbookmarkingnet.at_item{:href => "javascript:return addthis_sendto('socialbookmarkingnet');", :onclick => "return addthis_sendto('socialbookmarkingnet');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "32"}
+                    %span.at15t.at15t_socialbookmarkingnet BookmarkingNet
+                  %a#ati_bookmarkycz.at_item{:href => "javascript:return addthis_sendto('bookmarkycz');", :onclick => "return addthis_sendto('bookmarkycz');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "33"}
+                    %span.at15t.at15t_bookmarkycz Bookmarky.cz
+                  %a#ati_bookmerkende.at_item{:href => "javascript:return addthis_sendto('bookmerkende');", :onclick => "return addthis_sendto('bookmerkende');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "34"}
+                    %span.at15t.at15t_bookmerkende Bookmerken
+                  %a#ati_box.at_item{:href => "javascript:return addthis_sendto('box');", :onclick => "return addthis_sendto('box');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "35"}
+                    %span.at15t.at15t_box Box
+                  %a#ati_brainify.at_item{:href => "javascript:return addthis_sendto('brainify');", :onclick => "return addthis_sendto('brainify');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "36"}
+                    %span.at15t.at15t_brainify Brainify
+                  %a#ati_bryderi.at_item{:href => "javascript:return addthis_sendto('bryderi');", :onclick => "return addthis_sendto('bryderi');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "37"}
+                    %span.at15t.at15t_bryderi Bryderi.se
+                  %a#ati_buddymarks.at_item{:href => "javascript:return addthis_sendto('buddymarks');", :onclick => "return addthis_sendto('buddymarks');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "38"}
+                    %span.at15t.at15t_buddymarks BuddyMarks
+                  %a#ati_buffer.at_item{:href => "javascript:return addthis_sendto('buffer');", :onclick => "return addthis_sendto('buffer');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "39"}
+                    %span.at15t.at15t_buffer Buffer
+                  %a#ati_buzzzy.at_item{:href => "javascript:return addthis_sendto('buzzzy');", :onclick => "return addthis_sendto('buzzzy');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "40"}
+                    %span.at15t.at15t_buzzzy Buzzzy
+                  %a#ati_camyoo.at_item{:href => "javascript:return addthis_sendto('camyoo');", :onclick => "return addthis_sendto('camyoo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "41"}
+                    %span.at15t.at15t_camyoo Camyoo
+                  %a#ati_care2.at_item{:href => "javascript:return addthis_sendto('care2');", :onclick => "return addthis_sendto('care2');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "42"}
+                    %span.at15t.at15t_care2 Care2
+                  %a#ati_foodlve.at_item{:href => "javascript:return addthis_sendto('foodlve');", :onclick => "return addthis_sendto('foodlve');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "43"}
+                    %span.at15t.at15t_foodlve Cherry Share
+                  %a#ati_chiq.at_item{:href => "javascript:return addthis_sendto('chiq');", :onclick => "return addthis_sendto('chiq');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "44"}
+                    %span.at15t.at15t_chiq Chiq
+                  %a#ati_cirip.at_item{:href => "javascript:return addthis_sendto('cirip');", :onclick => "return addthis_sendto('cirip');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "45"}
+                    %span.at15t.at15t_cirip Cirip
+                  %a#ati_citeulike.at_item{:href => "javascript:return addthis_sendto('citeulike');", :onclick => "return addthis_sendto('citeulike');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "46"}
+                    %span.at15t.at15t_citeulike CiteULike
+                  %a#ati_classicalplace.at_item{:href => "javascript:return addthis_sendto('classicalplace');", :onclick => "return addthis_sendto('classicalplace');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "47"}
+                    %span.at15t.at15t_classicalplace ClassicalPlace
+                  %a#ati_cleanprint.at_item{:href => "javascript:return addthis_sendto('cleanprint');", :onclick => "return addthis_sendto('cleanprint');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "48"}
+                    %span.at15t.at15t_cleanprint CleanPrint
+                  %a#ati_cleansave.at_item{:href => "javascript:return addthis_sendto('cleansave');", :onclick => "return addthis_sendto('cleansave');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "49"}
+                    %span.at15t.at15t_cleansave CleanSave
+                  %a#ati_cndig.at_item{:href => "javascript:return addthis_sendto('cndig');", :onclick => "return addthis_sendto('cndig');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "50"}
+                    %span.at15t.at15t_cndig Cndig
+                  %a#ati_colivia.at_item{:href => "javascript:return addthis_sendto('colivia');", :onclick => "return addthis_sendto('colivia');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "51"}
+                    %span.at15t.at15t_colivia Colivia.de
+                  %a#ati_technerd.at_item{:href => "javascript:return addthis_sendto('technerd');", :onclick => "return addthis_sendto('technerd');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "52"}
+                    %span.at15t.at15t_technerd Communicate
+                  %a#ati_link.at_item{:href => "javascript:return addthis_sendto('link');", :onclick => "return addthis_sendto('link');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "53"}
+                    %span.at15t.at15t_link Copy Link
+                  %a#ati_cosmiq.at_item{:href => "javascript:return addthis_sendto('cosmiq');", :onclick => "return addthis_sendto('cosmiq');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "54"}
+                    %span.at15t.at15t_cosmiq COSMiQ
+                  %a#ati_cssbased.at_item{:href => "javascript:return addthis_sendto('cssbased');", :onclick => "return addthis_sendto('cssbased');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "55"}
+                    %span.at15t.at15t_cssbased CSS Based
+                  %a#ati_curateus.at_item{:href => "javascript:return addthis_sendto('curateus');", :onclick => "return addthis_sendto('curateus');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "56"}
+                    %span.at15t.at15t_curateus Curate.us
+                  %a#ati_delicious.at_item{:href => "javascript:return addthis_sendto('delicious');", :onclick => "return addthis_sendto('delicious');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "57"}
+                    %span.at16nc.at16t_delicious.at16t Delicious
+                  %a#ati_digaculturanet.at_item{:href => "javascript:return addthis_sendto('digaculturanet');", :onclick => "return addthis_sendto('digaculturanet');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "58"}
+                    %span.at15t.at15t_digaculturanet DigaCultura
+                  %a#ati_digg.at_item{:href => "javascript:return addthis_sendto('digg');", :onclick => "return addthis_sendto('digg');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "59"}
+                    %span.at16nc.at16t_digg.at16t Digg
+                  %a#ati_diggita.at_item{:href => "javascript:return addthis_sendto('diggita');", :onclick => "return addthis_sendto('diggita');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "60"}
+                    %span.at16nc.at16t_diggita.at16t Diggita
+                  %a#ati_digo.at_item{:href => "javascript:return addthis_sendto('digo');", :onclick => "return addthis_sendto('digo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "61"}
+                    %span.at15t.at15t_digo Digo
+                  %a#ati_diigo.at_item{:href => "javascript:return addthis_sendto('diigo');", :onclick => "return addthis_sendto('diigo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "62"}
+                    %span.at15t.at15t_diigo Diigo
+                  %a#ati_domelhor.at_item{:href => "javascript:return addthis_sendto('domelhor');", :onclick => "return addthis_sendto('domelhor');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "63"}
+                    %span.at15t.at15t_domelhor DoMelhor
+                  %a#ati_douban.at_item{:href => "javascript:return addthis_sendto('douban');", :onclick => "return addthis_sendto('douban');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "64"}
+                    %span.at15t.at15t_douban Douban
+                  %a#ati_draugiem.at_item{:href => "javascript:return addthis_sendto('draugiem');", :onclick => "return addthis_sendto('draugiem');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "65"}
+                    %span.at16nc.at16t_draugiem.at16t Draugiem.lv
+                  %a#ati_dropjack.at_item{:href => "javascript:return addthis_sendto('dropjack');", :onclick => "return addthis_sendto('dropjack');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "66"}
+                    %span.at15t.at15t_dropjack Dropjack
+                  %a#ati_dudu.at_item{:href => "javascript:return addthis_sendto('dudu');", :onclick => "return addthis_sendto('dudu');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "67"}
+                    %span.at15t.at15t_dudu Dudu
+                  %a#ati_dzone.at_item{:href => "javascript:return addthis_sendto('dzone');", :onclick => "return addthis_sendto('dzone');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "68"}
+                    %span.at15t.at15t_dzone Dzone
+                  %a#ati_efactor.at_item{:href => "javascript:return addthis_sendto('efactor');", :onclick => "return addthis_sendto('efactor');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "69"}
+                    %span.at15t.at15t_efactor EFactor
+                  %a#ati_ekudos.at_item{:href => "javascript:return addthis_sendto('ekudos');", :onclick => "return addthis_sendto('ekudos');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "70"}
+                    %span.at16nc.at16t_ekudos.at16t eKudos
+                  %a#ati_elefantapl.at_item{:href => "javascript:return addthis_sendto('elefantapl');", :onclick => "return addthis_sendto('elefantapl');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "71"}
+                    %span.at15t.at15t_elefantapl elefanta.pl
+                  %a#ati_email.at_item{:href => "javascript:return addthis_sendto('email');", :onclick => "return addthis_sendto('email');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "72"}
+                    %span.at16nc.at16t_email.at16t Email
+                  %a#ati_mailto.at_item{:href => "javascript:return addthis_sendto('mailto');", :onclick => "return addthis_sendto('mailto');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "73"}
+                    %span.at16nc.at16t_mailto.at16t Email App
+                  %a#ati_embarkons.at_item{:href => "javascript:return addthis_sendto('embarkons');", :onclick => "return addthis_sendto('embarkons');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "74"}
+                    %span.at15t.at15t_embarkons Embarkons
+                  %a#ati_evernote.at_item{:href => "javascript:return addthis_sendto('evernote');", :onclick => "return addthis_sendto('evernote');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "75"}
+                    %span.at15t.at15t_evernote Evernote
+                  %a#ati_extraplay.at_item{:href => "javascript:return addthis_sendto('extraplay');", :onclick => "return addthis_sendto('extraplay');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "76"}
+                    %span.at15t.at15t_extraplay extraplay
+                  %a#ati_ezyspot.at_item{:href => "javascript:return addthis_sendto('ezyspot');", :onclick => "return addthis_sendto('ezyspot');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "77"}
+                    %span.at15t.at15t_ezyspot EzySpot
+                  %a#ati_stylishhome.at_item{:href => "javascript:return addthis_sendto('stylishhome');", :onclick => "return addthis_sendto('stylishhome');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "78"}
+                    %span.at15t.at15t_stylishhome FabDesign
+                  %a#ati_fabulously40.at_item{:href => "javascript:return addthis_sendto('fabulously40');", :onclick => "return addthis_sendto('fabulously40');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "79"}
+                    %span.at15t.at15t_fabulously40 Fabulously40
+                  %a#ati_fark.at_item{:href => "javascript:return addthis_sendto('fark');", :onclick => "return addthis_sendto('fark');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "80"}
+                    %span.at15t.at15t_fark Fark
+                  %a#ati_farkinda.at_item{:href => "javascript:return addthis_sendto('farkinda');", :onclick => "return addthis_sendto('farkinda');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "81"}
+                    %span.at15t.at15t_farkinda Farkinda
+                  %a#ati_fashiolista.at_item{:href => "javascript:return addthis_sendto('fashiolista');", :onclick => "return addthis_sendto('fashiolista');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "82"}
+                    %span.at15t.at15t_fashiolista Fashiolista
+                  %a#ati_favable.at_item{:href => "javascript:return addthis_sendto('favable');", :onclick => "return addthis_sendto('favable');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "83"}
+                    %span.at15t.at15t_favable FAVable
+                  %a#ati_faves.at_item{:href => "javascript:return addthis_sendto('faves');", :onclick => "return addthis_sendto('faves');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "84"}
+                    %span.at15t.at15t_faves Faves
+                  %a#ati_favlogde.at_item{:href => "javascript:return addthis_sendto('favlogde');", :onclick => "return addthis_sendto('favlogde');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "85"}
+                    %span.at15t.at15t_favlogde favlog
+                  %a#ati_favoritende.at_item{:href => "javascript:return addthis_sendto('favoritende');", :onclick => "return addthis_sendto('favoritende');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "86"}
+                    %span.at15t.at15t_favoritende Favoriten
+                  %a#ati_favorites.at_item{:href => "javascript:return addthis_sendto('favorites');", :onclick => "return addthis_sendto('favorites');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "87"}
+                    %span.at16nc.at16t_favorites.at16t Favorites
+                  %a#ati_favoritus.at_item{:href => "javascript:return addthis_sendto('favoritus');", :onclick => "return addthis_sendto('favoritus');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "88"}
+                    %span.at15t.at15t_favoritus Favoritus
+                  %a#ati_financialjuice.at_item{:href => "javascript:return addthis_sendto('financialjuice');", :onclick => "return addthis_sendto('financialjuice');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "89"}
+                    %span.at15t.at15t_financialjuice Financial Juice
+                  %a#ati_flaker.at_item{:href => "javascript:return addthis_sendto('flaker');", :onclick => "return addthis_sendto('flaker');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "90"}
+                    %span.at15t.at15t_flaker Flaker
+                  %a#ati_flipboard.at_item{:href => "javascript:return addthis_sendto('flipboard');", :onclick => "return addthis_sendto('flipboard');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "91"}
+                    %span.at15t.at15t_flipboard Flipboard
+                  %a#ati_folkd.at_item{:href => "javascript:return addthis_sendto('folkd');", :onclick => "return addthis_sendto('folkd');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "92"}
+                    %span.at15t.at15t_folkd Folkd
+                  %a#ati_formspring.at_item{:href => "javascript:return addthis_sendto('formspring');", :onclick => "return addthis_sendto('formspring');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "93"}
+                    %span.at15t.at15t_formspring Formspring
+                  %a#ati_thefreedictionary.at_item{:href => "javascript:return addthis_sendto('thefreedictionary');", :onclick => "return addthis_sendto('thefreedictionary');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "94"}
+                    %span.at15t.at15t_thefreedictionary FreeDictionary
+                  %a#ati_fresqui.at_item{:href => "javascript:return addthis_sendto('fresqui');", :onclick => "return addthis_sendto('fresqui');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "95"}
+                    %span.at15t.at15t_fresqui Fresqui
+                  %a#ati_friendfeed.at_item{:href => "javascript:return addthis_sendto('friendfeed');", :onclick => "return addthis_sendto('friendfeed');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "96"}
+                    %span.at16nc.at16t_friendfeed.at16t FriendFeed
+                  %a#ati_funp.at_item{:href => "javascript:return addthis_sendto('funp');", :onclick => "return addthis_sendto('funp');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "97"}
+                    %span.at15t.at15t_funp funP
+                  %a#ati_fwisp.at_item{:href => "javascript:return addthis_sendto('fwisp');", :onclick => "return addthis_sendto('fwisp');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "98"}
+                    %span.at15t.at15t_fwisp fwisp
+                  %a#ati_gamekicker.at_item{:href => "javascript:return addthis_sendto('gamekicker');", :onclick => "return addthis_sendto('gamekicker');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "99"}
+                    %span.at15t.at15t_gamekicker Gamekicker
+                  %a#ati_gg.at_item{:href => "javascript:return addthis_sendto('gg');", :onclick => "return addthis_sendto('gg');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "100"}
+                    %span.at15t.at15t_gg GG
+                  %a#ati_giftery.at_item{:href => "javascript:return addthis_sendto('giftery');", :onclick => "return addthis_sendto('giftery');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "101"}
+                    %span.at15t.at15t_giftery Giftery.me
+                  %a#ati_gigbasket.at_item{:href => "javascript:return addthis_sendto('gigbasket');", :onclick => "return addthis_sendto('gigbasket');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "102"}
+                    %span.at15t.at15t_gigbasket GigBasket
+                  %a#ati_givealink.at_item{:href => "javascript:return addthis_sendto('givealink');", :onclick => "return addthis_sendto('givealink');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "103"}
+                    %span.at15t.at15t_givealink GiveALink
+                  %a#ati_gmail.at_item{:href => "javascript:return addthis_sendto('gmail');", :onclick => "return addthis_sendto('gmail');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "104"}
+                    %span.at16nc.at16t_gmail.at16t Gmail
+                  %a#ati_govn.at_item{:href => "javascript:return addthis_sendto('govn');", :onclick => "return addthis_sendto('govn');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "105"}
+                    %span.at15t.at15t_govn Go.vn
+                  %a#ati_goodnoows.at_item{:href => "javascript:return addthis_sendto('goodnoows');", :onclick => "return addthis_sendto('goodnoows');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "106"}
+                    %span.at15t.at15t_goodnoows Good Noows
+                  %a#ati_google_plusone_share.at_item{:href => "javascript:return addthis_sendto('google_plusone_share');", :onclick => "return addthis_sendto('google_plusone_share');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "107"}
+                    %span.at16nc.at16t_google_plusone_share.at16t Google+
+                  %a#ati_greaterdebater.at_item{:href => "javascript:return addthis_sendto('greaterdebater');", :onclick => "return addthis_sendto('greaterdebater');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "108"}
+                    %span.at15t.at15t_greaterdebater GreaterDebater
+                  %a#ati_hackernews.at_item{:href => "javascript:return addthis_sendto('hackernews');", :onclick => "return addthis_sendto('hackernews');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "109"}
+                    %span.at15t.at15t_hackernews Hacker News
+                  %a#ati_hatena.at_item{:href => "javascript:return addthis_sendto('hatena');", :onclick => "return addthis_sendto('hatena');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "110"}
+                    %span.at16nc.at16t_hatena.at16t Hatena
+                  %a#ati_gluvsnap.at_item{:href => "javascript:return addthis_sendto('gluvsnap');", :onclick => "return addthis_sendto('gluvsnap');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "111"}
+                    %span.at15t.at15t_gluvsnap Healthimize
+                  %a#ati_hedgehogs.at_item{:href => "javascript:return addthis_sendto('hedgehogs');", :onclick => "return addthis_sendto('hedgehogs');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "112"}
+                    %span.at15t.at15t_hedgehogs Hedgehogs
+                  %a#ati_historious.at_item{:href => "javascript:return addthis_sendto('historious');", :onclick => "return addthis_sendto('historious');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "113"}
+                    %span.at15t.at15t_historious historious
+                  %a#ati_hootsuite.at_item{:href => "javascript:return addthis_sendto('hootsuite');", :onclick => "return addthis_sendto('hootsuite');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "114"}
+                    %span.at15t.at15t_hootsuite Hootsuite
+                  %a#ati_hotklix.at_item{:href => "javascript:return addthis_sendto('hotklix');", :onclick => "return addthis_sendto('hotklix');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "115"}
+                    %span.at15t.at15t_hotklix Hotklix
+                  %a#ati_w3validator.at_item{:href => "javascript:return addthis_sendto('w3validator');", :onclick => "return addthis_sendto('w3validator');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "116"}
+                    %span.at15t.at15t_w3validator HTML Validator
+                  %a#ati_identica.at_item{:href => "javascript:return addthis_sendto('identica');", :onclick => "return addthis_sendto('identica');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "117"}
+                    %span.at15t.at15t_identica Identi.ca
+                  %a#ati_ihavegot.at_item{:href => "javascript:return addthis_sendto('ihavegot');", :onclick => "return addthis_sendto('ihavegot');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "118"}
+                    %span.at15t.at15t_ihavegot ihavegot
+                  %a#ati_indexor.at_item{:href => "javascript:return addthis_sendto('indexor');", :onclick => "return addthis_sendto('indexor');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "119"}
+                    %span.at15t.at15t_indexor Indexor
+                  %a#ati_informazione.at_item{:href => "javascript:return addthis_sendto('informazione');", :onclick => "return addthis_sendto('informazione');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "120"}
+                    %span.at15t.at15t_informazione Informazione
+                  %a#ati_instapaper.at_item{:href => "javascript:return addthis_sendto('instapaper');", :onclick => "return addthis_sendto('instapaper');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "121"}
+                    %span.at15t.at15t_instapaper Instapaper
+                  %a#ati_iorbix.at_item{:href => "javascript:return addthis_sendto('iorbix');", :onclick => "return addthis_sendto('iorbix');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "122"}
+                    %span.at15t.at15t_iorbix iOrbix
+                  %a#ati_irepeater.at_item{:href => "javascript:return addthis_sendto('irepeater');", :onclick => "return addthis_sendto('irepeater');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "123"}
+                    %span.at15t.at15t_irepeater IRepeater
+                  %a#ati_isociety.at_item{:href => "javascript:return addthis_sendto('isociety');", :onclick => "return addthis_sendto('isociety');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "124"}
+                    %span.at15t.at15t_isociety iSociety
+                  %a#ati_iwiw.at_item{:href => "javascript:return addthis_sendto('iwiw');", :onclick => "return addthis_sendto('iwiw');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "125"}
+                    %span.at15t.at15t_iwiw iWiW
+                  %a#ati_jamespot.at_item{:href => "javascript:return addthis_sendto('jamespot');", :onclick => "return addthis_sendto('jamespot');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "126"}
+                    %span.at15t.at15t_jamespot Jamespot
+                  %a#ati_jappy.at_item{:href => "javascript:return addthis_sendto('jappy');", :onclick => "return addthis_sendto('jappy');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "127"}
+                    %span.at16nc.at16t_jappy.at16t Jappy Ticker
+                  %a#ati_jolly.at_item{:href => "javascript:return addthis_sendto('jolly');", :onclick => "return addthis_sendto('jolly');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "128"}
+                    %span.at15t.at15t_jolly Jolly
+                  %a#ati_jumptags.at_item{:href => "javascript:return addthis_sendto('jumptags');", :onclick => "return addthis_sendto('jumptags');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "129"}
+                    %span.at15t.at15t_jumptags Jumptags
+                  %a#ati_kaboodle.at_item{:href => "javascript:return addthis_sendto('kaboodle');", :onclick => "return addthis_sendto('kaboodle');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "130"}
+                    %span.at15t.at15t_kaboodle Kaboodle
+                  %a#ati_kaevur.at_item{:href => "javascript:return addthis_sendto('kaevur');", :onclick => "return addthis_sendto('kaevur');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "131"}
+                    %span.at15t.at15t_kaevur Kaevur
+                  %a#ati_kaixin.at_item{:href => "javascript:return addthis_sendto('kaixin');", :onclick => "return addthis_sendto('kaixin');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "132"}
+                    %span.at15t.at15t_kaixin Kaixin Repaste
+                  %a#ati_ketnooi.at_item{:href => "javascript:return addthis_sendto('ketnooi');", :onclick => "return addthis_sendto('ketnooi');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "133"}
+                    %span.at15t.at15t_ketnooi Ketnooi
+                  %a#ati_kindleit.at_item{:href => "javascript:return addthis_sendto('kindleit');", :onclick => "return addthis_sendto('kindleit');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "134"}
+                    %span.at15t.at15t_kindleit Kindle It
+                  %a#ati_kledy.at_item{:href => "javascript:return addthis_sendto('kledy');", :onclick => "return addthis_sendto('kledy');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "135"}
+                    %span.at15t.at15t_kledy Kledy
+                  %a#ati_kommenting.at_item{:href => "javascript:return addthis_sendto('kommenting');", :onclick => "return addthis_sendto('kommenting');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "136"}
+                    %span.at15t.at15t_kommenting Kommenting
+                  %a#ati_latafaneracat.at_item{:href => "javascript:return addthis_sendto('latafaneracat');", :onclick => "return addthis_sendto('latafaneracat');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "137"}
+                    %span.at15t.at15t_latafaneracat La tafanera
+                  %a#ati_librerio.at_item{:href => "javascript:return addthis_sendto('librerio');", :onclick => "return addthis_sendto('librerio');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "138"}
+                    %span.at15t.at15t_librerio Librerio
+                  %a#ati_lidar.at_item{:href => "javascript:return addthis_sendto('lidar');", :onclick => "return addthis_sendto('lidar');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "139"}
+                    %span.at15t.at15t_lidar LiDAR Online
+                  %a#ati_aim.at_item{:href => "javascript:return addthis_sendto('aim');", :onclick => "return addthis_sendto('aim');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "140"}
+                    %span.at16nc.at16t_aim.at16t Lifestream
+                  %a#ati_linkedin.at_item{:href => "javascript:return addthis_sendto('linkedin');", :onclick => "return addthis_sendto('linkedin');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "141"}
+                    %span.at16nc.at16t_linkedin.at16t LinkedIn
+                  %a#ati_linksgutter.at_item{:href => "javascript:return addthis_sendto('linksgutter');", :onclick => "return addthis_sendto('linksgutter');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "142"}
+                    %span.at15t.at15t_linksgutter Links Gutter
+                  %a#ati_linkshares.at_item{:href => "javascript:return addthis_sendto('linkshares');", :onclick => "return addthis_sendto('linkshares');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "143"}
+                    %span.at15t.at15t_linkshares LinkShares
+                  %a#ati_linkuj.at_item{:href => "javascript:return addthis_sendto('linkuj');", :onclick => "return addthis_sendto('linkuj');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "144"}
+                    %span.at15t.at15t_linkuj Linkuj.cz
+                  %a#ati_livejournal.at_item{:href => "javascript:return addthis_sendto('livejournal');", :onclick => "return addthis_sendto('livejournal');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "145"}
+                    %span.at16nc.at16t_livejournal.at16t LiveJournal
+                  %a#ati_lockerblogger.at_item{:href => "javascript:return addthis_sendto('lockerblogger');", :onclick => "return addthis_sendto('lockerblogger');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "146"}
+                    %span.at15t.at15t_lockerblogger LockerBlogger
+                  %a#ati_logger24.at_item{:href => "javascript:return addthis_sendto('logger24');", :onclick => "return addthis_sendto('logger24');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "147"}
+                    %span.at15t.at15t_logger24 Logger24
+                  %a#ati_mymailru.at_item{:href => "javascript:return addthis_sendto('mymailru');", :onclick => "return addthis_sendto('mymailru');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "148"}
+                    %span.at16nc.at16t_mymailru.at16t Mail.ru
+                  %a#ati_margarin.at_item{:href => "javascript:return addthis_sendto('margarin');", :onclick => "return addthis_sendto('margarin');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "149"}
+                    %span.at15t.at15t_margarin mar.gar.in
+                  %a#ati_markme.at_item{:href => "javascript:return addthis_sendto('markme');", :onclick => "return addthis_sendto('markme');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "150"}
+                    %span.at15t.at15t_markme Markme
+                  %a#ati_mashant.at_item{:href => "javascript:return addthis_sendto('mashant');", :onclick => "return addthis_sendto('mashant');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "151"}
+                    %span.at15t.at15t_mashant Mashant
+                  %a#ati_mashbord.at_item{:href => "javascript:return addthis_sendto('mashbord');", :onclick => "return addthis_sendto('mashbord');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "152"}
+                    %span.at15t.at15t_mashbord Mashbord
+                  %a#ati_me2day.at_item{:href => "javascript:return addthis_sendto('me2day');", :onclick => "return addthis_sendto('me2day');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "153"}
+                    %span.at15t.at15t_me2day me2day
+                  %a#ati_meinvz.at_item{:href => "javascript:return addthis_sendto('meinvz');", :onclick => "return addthis_sendto('meinvz');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "154"}
+                    %span.at16nc.at16t_meinvz.at16t meinVZ
+                  %a#ati_mekusharim.at_item{:href => "javascript:return addthis_sendto('mekusharim');", :onclick => "return addthis_sendto('mekusharim');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "155"}
+                    %span.at15t.at15t_mekusharim Mekusharim
+                  %a#ati_memonic.at_item{:href => "javascript:return addthis_sendto('memonic');", :onclick => "return addthis_sendto('memonic');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "156"}
+                    %span.at15t.at15t_memonic Memonic
+                  %a#ati_memori.at_item{:href => "javascript:return addthis_sendto('memori');", :onclick => "return addthis_sendto('memori');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "157"}
+                    %span.at15t.at15t_memori Memori.ru
+                  %a#ati_mendeley.at_item{:href => "javascript:return addthis_sendto('mendeley');", :onclick => "return addthis_sendto('mendeley');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "158"}
+                    %span.at15t.at15t_mendeley Mendeley
+                  %a#ati_meneame.at_item{:href => "javascript:return addthis_sendto('meneame');", :onclick => "return addthis_sendto('meneame');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "159"}
+                    %span.at16nc.at16t_meneame.at16t Menéame
+                  %a#ati_live.at_item{:href => "javascript:return addthis_sendto('live');", :onclick => "return addthis_sendto('live');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "160"}
+                    %span.at16nc.at16t_live.at16t Messenger
+                  %a#ati_misterwong.at_item{:href => "javascript:return addthis_sendto('misterwong');", :onclick => "return addthis_sendto('misterwong');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "161"}
+                    %span.at16nc.at16t_misterwong.at16t Mister Wong
+                  %a#ati_mixi.at_item{:href => "javascript:return addthis_sendto('mixi');", :onclick => "return addthis_sendto('mixi');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "162"}
+                    %span.at15t.at15t_mixi Mixi
+                  %a#ati_moemesto.at_item{:href => "javascript:return addthis_sendto('moemesto');", :onclick => "return addthis_sendto('moemesto');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "163"}
+                    %span.at15t.at15t_moemesto Moemesto.ru
+                  %a#ati_moikrug.at_item{:href => "javascript:return addthis_sendto('moikrug');", :onclick => "return addthis_sendto('moikrug');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "164"}
+                    %span.at15t.at15t_moikrug Moikrug
+                  %a#ati_mrcnetworkit.at_item{:href => "javascript:return addthis_sendto('mrcnetworkit');", :onclick => "return addthis_sendto('mrcnetworkit');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "165"}
+                    %span.at15t.at15t_mrcnetworkit mRcNEtwORK
+                  %a#ati_myspace.at_item{:href => "javascript:return addthis_sendto('myspace');", :onclick => "return addthis_sendto('myspace');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "166"}
+                    %span.at16nc.at16t_myspace.at16t Myspace
+                  %a#ati_myvidster.at_item{:href => "javascript:return addthis_sendto('myvidster');", :onclick => "return addthis_sendto('myvidster');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "167"}
+                    %span.at15t.at15t_myvidster myVidster
+                  %a#ati_n4g.at_item{:href => "javascript:return addthis_sendto('n4g');", :onclick => "return addthis_sendto('n4g');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "168"}
+                    %span.at15t.at15t_n4g N4G
+                  %a#ati_naszaklasa.at_item{:href => "javascript:return addthis_sendto('naszaklasa');", :onclick => "return addthis_sendto('naszaklasa');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "169"}
+                    %span.at15t.at15t_naszaklasa Nasza-klasa
+                  %a#ati_netlog.at_item{:href => "javascript:return addthis_sendto('netlog');", :onclick => "return addthis_sendto('netlog');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "170"}
+                    %span.at16nc.at16t_netlog.at16t NetLog
+                  %a#ati_netvibes.at_item{:href => "javascript:return addthis_sendto('netvibes');", :onclick => "return addthis_sendto('netvibes');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "171"}
+                    %span.at15t.at15t_netvibes Netvibes
+                  %a#ati_netvouz.at_item{:href => "javascript:return addthis_sendto('netvouz');", :onclick => "return addthis_sendto('netvouz');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "172"}
+                    %span.at15t.at15t_netvouz Netvouz
+                  %a#ati_newsmeback.at_item{:href => "javascript:return addthis_sendto('newsmeback');", :onclick => "return addthis_sendto('newsmeback');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "173"}
+                    %span.at15t.at15t_newsmeback NewsMeBack
+                  %a#ati_newstrust.at_item{:href => "javascript:return addthis_sendto('newstrust');", :onclick => "return addthis_sendto('newstrust');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "174"}
+                    %span.at15t.at15t_newstrust NewsTrust
+                  %a#ati_newsvine.at_item{:href => "javascript:return addthis_sendto('newsvine');", :onclick => "return addthis_sendto('newsvine');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "175"}
+                    %span.at15t.at15t_newsvine Newsvine
+                  %a#ati_nujij.at_item{:href => "javascript:return addthis_sendto('nujij');", :onclick => "return addthis_sendto('nujij');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "176"}
+                    %span.at16nc.at16t_nujij.at16t Nujij
+                  %a#ati_odnoklassniki_ru.at_item{:href => "javascript:return addthis_sendto('odnoklassniki_ru');", :onclick => "return addthis_sendto('odnoklassniki_ru');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "177"}
+                    %span.at15t.at15t_odnoklassniki_ru Odnoklassniki
+                  %a#ati_oknotizie.at_item{:href => "javascript:return addthis_sendto('oknotizie');", :onclick => "return addthis_sendto('oknotizie');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "178"}
+                    %span.at16nc.at16t_oknotizie.at16t OKNOtizie
+                  %a#ati_openthedoor.at_item{:href => "javascript:return addthis_sendto('openthedoor');", :onclick => "return addthis_sendto('openthedoor');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "179"}
+                    %span.at15t.at15t_openthedoor OpenTheDoor
+                  %a#ati_hotmail.at_item{:href => "javascript:return addthis_sendto('hotmail');", :onclick => "return addthis_sendto('hotmail');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "180"}
+                    %span.at16nc.at16t_hotmail.at16t Outlook
+                  %a#ati_oyyla.at_item{:href => "javascript:return addthis_sendto('oyyla');", :onclick => "return addthis_sendto('oyyla');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "181"}
+                    %span.at16nc.at16t_oyyla.at16t Oyyla
+                  %a#ati_packg.at_item{:href => "javascript:return addthis_sendto('packg');", :onclick => "return addthis_sendto('packg');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "182"}
+                    %span.at15t.at15t_packg Packg
+                  %a#ati_pafnetde.at_item{:href => "javascript:return addthis_sendto('pafnetde');", :onclick => "return addthis_sendto('pafnetde');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "183"}
+                    %span.at15t.at15t_pafnetde Pafnet
+                  %a#ati_pdfonline.at_item{:href => "javascript:return addthis_sendto('pdfonline');", :onclick => "return addthis_sendto('pdfonline');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "184"}
+                    %span.at15t.at15t_pdfonline PDF Online
+                  %a#ati_pdfmyurl.at_item{:href => "javascript:return addthis_sendto('pdfmyurl');", :onclick => "return addthis_sendto('pdfmyurl');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "185"}
+                    %span.at15t.at15t_pdfmyurl PDFmyURL
+                  %a#ati_phonefavs.at_item{:href => "javascript:return addthis_sendto('phonefavs');", :onclick => "return addthis_sendto('phonefavs');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "186"}
+                    %span.at15t.at15t_phonefavs PhoneFavs
+                  %a#ati_pinterest_share.at_item{:href => "javascript:return addthis_sendto('pinterest_share');", :onclick => "return addthis_sendto('pinterest_share');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "187"}
+                    %span.at16nc.at16t_pinterest_share.at16t Pinterest
+                  %a#ati_planypus.at_item{:href => "javascript:return addthis_sendto('planypus');", :onclick => "return addthis_sendto('planypus');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "188"}
+                    %span.at15t.at15t_planypus Planypus
+                  %a#ati_plaxo.at_item{:href => "javascript:return addthis_sendto('plaxo');", :onclick => "return addthis_sendto('plaxo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "189"}
+                    %span.at15t.at15t_plaxo Plaxo
+                  %a#ati_plurk.at_item{:href => "javascript:return addthis_sendto('plurk');", :onclick => "return addthis_sendto('plurk');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "190"}
+                    %span.at16nc.at16t_plurk.at16t Plurk
+                  %a#ati_pocket.at_item{:href => "javascript:return addthis_sendto('pocket');", :onclick => "return addthis_sendto('pocket');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "191"}
+                    %span.at15t.at15t_pocket Pocket
+                  %a#ati_posteezy.at_item{:href => "javascript:return addthis_sendto('posteezy');", :onclick => "return addthis_sendto('posteezy');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "192"}
+                    %span.at15t.at15t_posteezy Posteezy
+                  %a#ati_print.at_item{:href => "javascript:return addthis_sendto('print');", :onclick => "return addthis_sendto('print');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "193"}
+                    %span.at16nc.at16t_print.at16t Print
+                  %a#ati_printfriendly.at_item{:href => "javascript:return addthis_sendto('printfriendly');", :onclick => "return addthis_sendto('printfriendly');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "194"}
+                    %span.at15t.at15t_printfriendly PrintFriendly
+                  %a#ati_pusha.at_item{:href => "javascript:return addthis_sendto('pusha');", :onclick => "return addthis_sendto('pusha');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "195"}
+                    %span.at16nc.at16t_pusha.at16t Pusha
+                  %a#ati_qrfin.at_item{:href => "javascript:return addthis_sendto('qrfin');", :onclick => "return addthis_sendto('qrfin');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "196"}
+                    %span.at15t.at15t_qrfin QRF.in
+                  %a#ati_qrsrc.at_item{:href => "javascript:return addthis_sendto('qrsrc');", :onclick => "return addthis_sendto('qrsrc');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "197"}
+                    %span.at15t.at15t_qrsrc QRSrc.com
+                  %a#ati_quantcast.at_item{:href => "javascript:return addthis_sendto('quantcast');", :onclick => "return addthis_sendto('quantcast');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "198"}
+                    %span.at15t.at15t_quantcast Quantcast
+                  %a#ati_qzone.at_item{:href => "javascript:return addthis_sendto('qzone');", :onclick => "return addthis_sendto('qzone');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "199"}
+                    %span.at15t.at15t_qzone Qzone
+                  %a#ati_reddit.at_item{:href => "javascript:return addthis_sendto('reddit');", :onclick => "return addthis_sendto('reddit');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "200"}
+                    %span.at16nc.at16t_reddit.at16t Reddit
+                  %a#ati_rediff.at_item{:href => "javascript:return addthis_sendto('rediff');", :onclick => "return addthis_sendto('rediff');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "201"}
+                    %span.at15t.at15t_rediff Rediff MyPage
+                  %a#ati_redkum.at_item{:href => "javascript:return addthis_sendto('redkum');", :onclick => "return addthis_sendto('redkum');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "202"}
+                    %span.at15t.at15t_redkum RedKum
+                  %a#ati_researchgate.at_item{:href => "javascript:return addthis_sendto('researchgate');", :onclick => "return addthis_sendto('researchgate');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "203"}
+                    %span.at15t.at15t_researchgate ResearchGate
+                  %a#ati_safelinking.at_item{:href => "javascript:return addthis_sendto('safelinking');", :onclick => "return addthis_sendto('safelinking');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "204"}
+                    %span.at15t.at15t_safelinking Safelinking
+                  %a#ati_scoopat.at_item{:href => "javascript:return addthis_sendto('scoopat');", :onclick => "return addthis_sendto('scoopat');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "205"}
+                    %span.at15t.at15t_scoopat Scoop.at
+                  %a#ati_scoopit.at_item{:href => "javascript:return addthis_sendto('scoopit');", :onclick => "return addthis_sendto('scoopit');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "206"}
+                    %span.at15t.at15t_scoopit Scoop.it
+                  %a#ati_sekoman.at_item{:href => "javascript:return addthis_sendto('sekoman');", :onclick => "return addthis_sendto('sekoman');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "207"}
+                    %span.at15t.at15t_sekoman Sekoman
+                  %a#ati_select2gether.at_item{:href => "javascript:return addthis_sendto('select2gether');", :onclick => "return addthis_sendto('select2gether');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "208"}
+                    %span.at15t.at15t_select2gether Select2Gether
+                  %a#ati_settings.at_item{:href => "javascript:return addthis_sendto('settings');", :onclick => "return addthis_sendto('settings');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "209"}
+                    %span.at15t.at15t_settings Settings...
+                  %a#ati_shaveh.at_item{:href => "javascript:return addthis_sendto('shaveh');", :onclick => "return addthis_sendto('shaveh');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "210"}
+                    %span.at15t.at15t_shaveh Shaveh
+                  %a#ati_shetoldme.at_item{:href => "javascript:return addthis_sendto('shetoldme');", :onclick => "return addthis_sendto('shetoldme');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "211"}
+                    %span.at15t.at15t_shetoldme She Told Me
+                  %a#ati_sinaweibo.at_item{:href => "javascript:return addthis_sendto('sinaweibo');", :onclick => "return addthis_sendto('sinaweibo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "212"}
+                    %span.at15t.at15t_sinaweibo Sina Weibo
+                  %a#ati_skyrock.at_item{:href => "javascript:return addthis_sendto('skyrock');", :onclick => "return addthis_sendto('skyrock');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "213"}
+                    %span.at15t.at15t_skyrock Skyrock Blog
+                  %a#ati_smiru.at_item{:href => "javascript:return addthis_sendto('smiru');", :onclick => "return addthis_sendto('smiru');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "214"}
+                    %span.at15t.at15t_smiru SMI
+                  %a#ati_sodahead.at_item{:href => "javascript:return addthis_sendto('sodahead');", :onclick => "return addthis_sendto('sodahead');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "215"}
+                    %span.at15t.at15t_sodahead SodaHead
+                  %a#ati_sonico.at_item{:href => "javascript:return addthis_sendto('sonico');", :onclick => "return addthis_sendto('sonico');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "216"}
+                    %span.at16nc.at16t_sonico.at16t Sonico
+                  %a#ati_spinsnap.at_item{:href => "javascript:return addthis_sendto('spinsnap');", :onclick => "return addthis_sendto('spinsnap');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "217"}
+                    %span.at15t.at15t_spinsnap SpinSnap
+                  %a#ati_yiid.at_item{:href => "javascript:return addthis_sendto('yiid');", :onclick => "return addthis_sendto('yiid');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "218"}
+                    %span.at15t.at15t_yiid Spreadly
+                  %a#ati_springpad.at_item{:href => "javascript:return addthis_sendto('springpad');", :onclick => "return addthis_sendto('springpad');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "219"}
+                    %span.at15t.at15t_springpad springpad
+                  %a#ati_startaid.at_item{:href => "javascript:return addthis_sendto('startaid');", :onclick => "return addthis_sendto('startaid');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "220"}
+                    %span.at15t.at15t_startaid Startaid
+                  %a#ati_startlap.at_item{:href => "javascript:return addthis_sendto('startlap');", :onclick => "return addthis_sendto('startlap');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "221"}
+                    %span.at15t.at15t_startlap Startlap
+                  %a#ati_storyfollower.at_item{:href => "javascript:return addthis_sendto('storyfollower');", :onclick => "return addthis_sendto('storyfollower');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "222"}
+                    %span.at15t.at15t_storyfollower StoryFollower
+                  %a#ati_studivz.at_item{:href => "javascript:return addthis_sendto('studivz');", :onclick => "return addthis_sendto('studivz');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "223"}
+                    %span.at16nc.at16t_studivz.at16t studiVZ
+                  %a#ati_stuffpit.at_item{:href => "javascript:return addthis_sendto('stuffpit');", :onclick => "return addthis_sendto('stuffpit');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "224"}
+                    %span.at15t.at15t_stuffpit Stuffpit
+                  %a#ati_stumbleupon.at_item{:href => "javascript:return addthis_sendto('stumbleupon');", :onclick => "return addthis_sendto('stumbleupon');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "225"}
+                    %span.at16nc.at16t_stumbleupon.at16t StumbleUpon
+                  %a#ati_stumpedia.at_item{:href => "javascript:return addthis_sendto('stumpedia');", :onclick => "return addthis_sendto('stumpedia');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "226"}
+                    %span.at15t.at15t_stumpedia Stumpedia
+                  %a#ati_sulia.at_item{:href => "javascript:return addthis_sendto('sulia');", :onclick => "return addthis_sendto('sulia');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "227"}
+                    %span.at15t.at15t_sulia Sulia
+                  %a#ati_sunlize.at_item{:href => "javascript:return addthis_sendto('sunlize');", :onclick => "return addthis_sendto('sunlize');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "228"}
+                    %span.at15t.at15t_sunlize Sunlize
+                  %a#ati_supbro.at_item{:href => "javascript:return addthis_sendto('supbro');", :onclick => "return addthis_sendto('supbro');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "229"}
+                    %span.at15t.at15t_supbro SUP BRO
+                  %a#ati_surfingbird.at_item{:href => "javascript:return addthis_sendto('surfingbird');", :onclick => "return addthis_sendto('surfingbird');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "230"}
+                    %span.at15t.at15t_surfingbird Surfingbird
+                  %a#ati_svejo.at_item{:href => "javascript:return addthis_sendto('svejo');", :onclick => "return addthis_sendto('svejo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "231"}
+                    %span.at15t.at15t_svejo Svejo
+                  %a#ati_symbaloo.at_item{:href => "javascript:return addthis_sendto('symbaloo');", :onclick => "return addthis_sendto('symbaloo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "232"}
+                    %span.at15t.at15t_symbaloo Symbaloo
+                  %a#ati_taaza.at_item{:href => "javascript:return addthis_sendto('taaza');", :onclick => "return addthis_sendto('taaza');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "233"}
+                    %span.at15t.at15t_taaza TaazaShare
+                  %a#ati_tagza.at_item{:href => "javascript:return addthis_sendto('tagza');", :onclick => "return addthis_sendto('tagza');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "234"}
+                    %span.at15t.at15t_tagza Tagza
+                  %a#ati_tapiture.at_item{:href => "javascript:return addthis_sendto('tapiture');", :onclick => "return addthis_sendto('tapiture');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "235"}
+                    %span.at15t.at15t_tapiture Tapiture
+                  %a#ati_taringa.at_item{:href => "javascript:return addthis_sendto('taringa');", :onclick => "return addthis_sendto('taringa');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "236"}
+                    %span.at15t.at15t_taringa Taringa!
+                  %a#ati_thefancy.at_item{:href => "javascript:return addthis_sendto('thefancy');", :onclick => "return addthis_sendto('thefancy');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "237"}
+                    %span.at15t.at15t_thefancy The Fancy
+                  %a#ati_thewebblend.at_item{:href => "javascript:return addthis_sendto('thewebblend');", :onclick => "return addthis_sendto('thewebblend');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "238"}
+                    %span.at15t.at15t_thewebblend The Web Blend
+                  %a#ati_thinkfinity.at_item{:href => "javascript:return addthis_sendto('thinkfinity');", :onclick => "return addthis_sendto('thinkfinity');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "239"}
+                    %span.at15t.at15t_thinkfinity Thinkfinity
+                  %a#ati_thisnext.at_item{:href => "javascript:return addthis_sendto('thisnext');", :onclick => "return addthis_sendto('thisnext');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "240"}
+                    %span.at15t.at15t_thisnext ThisNext
+                  %a#ati_thrillon.at_item{:href => "javascript:return addthis_sendto('thrillon');", :onclick => "return addthis_sendto('thrillon');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "241"}
+                    %span.at15t.at15t_thrillon Thrill On
+                  %a#ati_throwpile.at_item{:href => "javascript:return addthis_sendto('throwpile');", :onclick => "return addthis_sendto('throwpile');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "242"}
+                    %span.at15t.at15t_throwpile Throwpile
+                  %a#ati_toly.at_item{:href => "javascript:return addthis_sendto('toly');", :onclick => "return addthis_sendto('toly');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "243"}
+                    %span.at15t.at15t_toly to.ly
+                  %a#ati_topsitelernet.at_item{:href => "javascript:return addthis_sendto('topsitelernet');", :onclick => "return addthis_sendto('topsitelernet');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "244"}
+                    %span.at15t.at15t_topsitelernet TopSiteler
+                  %a#ati_transferr.at_item{:href => "javascript:return addthis_sendto('transferr');", :onclick => "return addthis_sendto('transferr');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "245"}
+                    %span.at15t.at15t_transferr Transferr
+                  %a#ati_googletranslate.at_item{:href => "javascript:return addthis_sendto('googletranslate');", :onclick => "return addthis_sendto('googletranslate');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "246"}
+                    %span.at15t.at15t_googletranslate Translate
+                  %a#ati_tuenti.at_item{:href => "javascript:return addthis_sendto('tuenti');", :onclick => "return addthis_sendto('tuenti');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "247"}
+                    %span.at16nc.at16t_tuenti.at16t Tuenti
+                  %a#ati_tulinq.at_item{:href => "javascript:return addthis_sendto('tulinq');", :onclick => "return addthis_sendto('tulinq');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "248"}
+                    %span.at15t.at15t_tulinq Tulinq
+                  %a#ati_tumblr.at_item{:href => "javascript:return addthis_sendto('tumblr');", :onclick => "return addthis_sendto('tumblr');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "249"}
+                    %span.at16nc.at16t_tumblr.at16t Tumblr
+                  %a#ati_tvinx.at_item{:href => "javascript:return addthis_sendto('tvinx');", :onclick => "return addthis_sendto('tvinx');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "250"}
+                    %span.at15t.at15t_tvinx Tvinx
+                  %a#ati_twitthis.at_item{:href => "javascript:return addthis_sendto('twitthis');", :onclick => "return addthis_sendto('twitthis');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "251"}
+                    %span.at15t.at15t_twitthis TwitThis
+                  %a#ati_typepad.at_item{:href => "javascript:return addthis_sendto('typepad');", :onclick => "return addthis_sendto('typepad');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "252"}
+                    %span.at15t.at15t_typepad Typepad
+                  %a#ati_upnews.at_item{:href => "javascript:return addthis_sendto('upnews');", :onclick => "return addthis_sendto('upnews');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "253"}
+                    %span.at15t.at15t_upnews Upnews.it
+                  %a#ati_urlaubswerkde.at_item{:href => "javascript:return addthis_sendto('urlaubswerkde');", :onclick => "return addthis_sendto('urlaubswerkde');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "254"}
+                    %span.at15t.at15t_urlaubswerkde Urlaubswerk
+                  %a#ati_viadeo.at_item{:href => "javascript:return addthis_sendto('viadeo');", :onclick => "return addthis_sendto('viadeo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "255"}
+                    %span.at16nc.at16t_viadeo.at16t Viadeo
+                  %a#ati_virb.at_item{:href => "javascript:return addthis_sendto('virb');", :onclick => "return addthis_sendto('virb');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "256"}
+                    %span.at15t.at15t_virb Virb
+                  %a#ati_visitezmonsite.at_item{:href => "javascript:return addthis_sendto('visitezmonsite');", :onclick => "return addthis_sendto('visitezmonsite');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "257"}
+                    %span.at15t.at15t_visitezmonsite VisitezMonSite
+                  %a#ati_vk.at_item{:href => "javascript:return addthis_sendto('vk');", :onclick => "return addthis_sendto('vk');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "258"}
+                    %span.at16nc.at16t_vk.at16t VKontakte
+                  %a#ati_vkrugudruzei.at_item{:href => "javascript:return addthis_sendto('vkrugudruzei');", :onclick => "return addthis_sendto('vkrugudruzei');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "259"}
+                    %span.at15t.at15t_vkrugudruzei vKruguDruzei
+                  %a#ati_voxopolis.at_item{:href => "javascript:return addthis_sendto('voxopolis');", :onclick => "return addthis_sendto('voxopolis');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "260"}
+                    %span.at15t.at15t_voxopolis VOX Social
+                  %a#ati_vybralisme.at_item{:href => "javascript:return addthis_sendto('vybralisme');", :onclick => "return addthis_sendto('vybralisme');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "261"}
+                    %span.at15t.at15t_vybralisme VybraliSME
+                  %a#ati_wanelo.at_item{:href => "javascript:return addthis_sendto('wanelo');", :onclick => "return addthis_sendto('wanelo');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "262"}
+                    %span.at15t.at15t_wanelo Wanelo
+                  %a#ati_internetarchive.at_item{:href => "javascript:return addthis_sendto('internetarchive');", :onclick => "return addthis_sendto('internetarchive');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "263"}
+                    %span.at15t.at15t_internetarchive Wayback Machine
+                  %a#ati_sharer.at_item{:href => "javascript:return addthis_sendto('sharer');", :onclick => "return addthis_sendto('sharer');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "264"}
+                    %span.at15t.at15t_sharer WebMoney
+                  %a#ati_webnews.at_item{:href => "javascript:return addthis_sendto('webnews');", :onclick => "return addthis_sendto('webnews');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "265"}
+                    %span.at15t.at15t_webnews Webnews
+                  %a#ati_webshare.at_item{:href => "javascript:return addthis_sendto('webshare');", :onclick => "return addthis_sendto('webshare');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "266"}
+                    %span.at15t.at15t_webshare WebShare
+                  %a#ati_werkenntwen.at_item{:href => "javascript:return addthis_sendto('werkenntwen');", :onclick => "return addthis_sendto('werkenntwen');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "267"}
+                    %span.at15t.at15t_werkenntwen WerKenntWen
+                  %a#ati_whatsapp.at_item{:href => "javascript:return addthis_sendto('whatsapp');", :onclick => "return addthis_sendto('whatsapp');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "268"}
+                    %span.at15t.at15t_whatsapp WhatsApp
+                  %a#ati_domaintoolswhois.at_item{:href => "javascript:return addthis_sendto('domaintoolswhois');", :onclick => "return addthis_sendto('domaintoolswhois');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "269"}
+                    %span.at15t.at15t_domaintoolswhois Whois Lookup
+                  %a#ati_windows.at_item{:href => "javascript:return addthis_sendto('windows');", :onclick => "return addthis_sendto('windows');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "270"}
+                    %span.at15t.at15t_windows Windows Gadget
+                  %a#ati_wirefan.at_item{:href => "javascript:return addthis_sendto('wirefan');", :onclick => "return addthis_sendto('wirefan');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "271"}
+                    %span.at15t.at15t_wirefan WireFan
+                  %a#ati_wishmindr.at_item{:href => "javascript:return addthis_sendto('wishmindr');", :onclick => "return addthis_sendto('wishmindr');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "272"}
+                    %span.at15t.at15t_wishmindr WishMindr
+                  %a#ati_wordpress.at_item{:href => "javascript:return addthis_sendto('wordpress');", :onclick => "return addthis_sendto('wordpress');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "273"}
+                    %span.at16nc.at16t_wordpress.at16t WordPress
+                  %a#ati_wowbored.at_item{:href => "javascript:return addthis_sendto('wowbored');", :onclick => "return addthis_sendto('wowbored');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "274"}
+                    %span.at15t.at15t_wowbored WowBored
+                  %a#ati_raiseyourvoice.at_item{:href => "javascript:return addthis_sendto('raiseyourvoice');", :onclick => "return addthis_sendto('raiseyourvoice');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "275"}
+                    %span.at15t.at15t_raiseyourvoice Write Your Rep
+                  %a#ati_wykop.at_item{:href => "javascript:return addthis_sendto('wykop');", :onclick => "return addthis_sendto('wykop');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "276"}
+                    %span.at16nc.at16t_wykop.at16t Wykop
+                  %a#ati_xanga.at_item{:href => "javascript:return addthis_sendto('xanga');", :onclick => "return addthis_sendto('xanga');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "277"}
+                    %span.at15t.at15t_xanga Xanga
+                  %a#ati_xing.at_item{:href => "javascript:return addthis_sendto('xing');", :onclick => "return addthis_sendto('xing');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "278"}
+                    %span.at16nc.at16t_xing.at16t XING
+                  %a#ati_yahoobkm.at_item{:href => "javascript:return addthis_sendto('yahoobkm');", :onclick => "return addthis_sendto('yahoobkm');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "279"}
+                    %span.at16nc.at16t_yahoobkm.at16t Y! Bookmarks
+                  %a#ati_yahoomail.at_item{:href => "javascript:return addthis_sendto('yahoomail');", :onclick => "return addthis_sendto('yahoomail');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "280"}
+                    %span.at16nc.at16t_yahoomail.at16t Y! Mail
+                  %a#ati_yammer.at_item{:href => "javascript:return addthis_sendto('yammer');", :onclick => "return addthis_sendto('yammer');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "281"}
+                    %span.at15t.at15t_yammer Yammer
+                  %a#ati_yardbarker.at_item{:href => "javascript:return addthis_sendto('yardbarker');", :onclick => "return addthis_sendto('yardbarker');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "282"}
+                    %span.at15t.at15t_yardbarker Yardbarker
+                  %a#ati_yigg.at_item{:href => "javascript:return addthis_sendto('yigg');", :onclick => "return addthis_sendto('yigg');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "283"}
+                    %span.at15t.at15t_yigg Yigg
+                  %a#ati_yookos.at_item{:href => "javascript:return addthis_sendto('yookos');", :onclick => "return addthis_sendto('yookos');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "284"}
+                    %span.at15t.at15t_yookos Yookos
+                  %a#ati_yoolink.at_item{:href => "javascript:return addthis_sendto('yoolink');", :onclick => "return addthis_sendto('yoolink');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "285"}
+                    %span.at15t.at15t_yoolink Yoolink
+                  %a#ati_yorumcuyum.at_item{:href => "javascript:return addthis_sendto('yorumcuyum');", :onclick => "return addthis_sendto('yorumcuyum');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "286"}
+                    %span.at16nc.at16t_yorumcuyum.at16t Yorumcuyum
+                  %a#ati_youmob.at_item{:href => "javascript:return addthis_sendto('youmob');", :onclick => "return addthis_sendto('youmob');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "287"}
+                    %span.at15t.at15t_youmob YouMob
+                  %a#ati_yuuby.at_item{:href => "javascript:return addthis_sendto('yuuby');", :onclick => "return addthis_sendto('yuuby');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "288"}
+                    %span.at15t.at15t_yuuby Yuuby
+                  %a#ati_zakladoknet.at_item{:href => "javascript:return addthis_sendto('zakladoknet');", :onclick => "return addthis_sendto('zakladoknet');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "289"}
+                    %span.at15t.at15t_zakladoknet Zakladok.net
+                  %a#ati_ziczac.at_item{:href => "javascript:return addthis_sendto('ziczac');", :onclick => "return addthis_sendto('ziczac');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "290"}
+                    %span.at15t.at15t_ziczac ZicZac
+                  %a#ati_zingme.at_item{:href => "javascript:return addthis_sendto('zingme');", :onclick => "return addthis_sendto('zingme');", :onmouseout => "_atw.rhv(this)", :onmouseover => "_atw.shv(this)", :tabindex => "291"}
+                    %span.at15t.at15t_zingme ZingMe
+                %div{:style => "clear:both;"}
+              #at_complete{:style => "display:none"}
+                %button{:onclick => "_atw.clb()"} Done
+              #at_success{:style => "display: none;"}
+                Message sent!
+                %a{:href => "#", :onclick => "_atw.get('at16filt').value='';_atw.filt('',_atw.list);_atw.sag();return false"} Share again.
+              #at_sending{:style => "display:none"}
+                .at16c
+                  .at_redloading
+                  = succeed "Sending" do
+                    %br/
+              #at_error.at_error{:style => "display: none;"}
+              #at_copylink{:style => "display: none; visibility: hidden;"}
+              #at_captcha{:style => "display:none"}
+              #at_promo{:style => "display: none;"}
+                .at-promo-content
+                  %h4 AddThis for Chrome
+                  %span Make sharing easier with AddThis for Chrome.
+                  .at-promo-btn.at-promo-btm-ch
+                    %a{:href => "http://www.addthis.com/landing?to=chrome&utm_source=Promo&utm_medium=img&utm_content=ATCHPromo_orig&utm_campaign=AT_CHLP", :target => "_blank"} Download
+                    %br/
+                    %br/
+                    %br/
+                    %a{:href => "http://www.addthis.com/pages/toolbar-preferences", :style => "padding-top:10px;font-size:10px", :target => "_blank"} Don't show these
+              #at_email{:style => "display: none; visibility: hidden;"}
+                %form{:onsubmit => "addthis_send();return false;"}
+                  %label{:for => "at_to"}
+                    To:
+                    %span (email address)
+                  %textarea#at_to{:cols => "30", :onfocus => "_atw.rse();", :onkeydown => "if (window._atab) _atab.htkd(this, event)", :onkeyup => "_atw.filt(this.value.replace(/[;\\n]/g,',').replace(/ /g,'').split(',').pop(), _atw.data.contacts.all, 'at16eatdr', '_ataddr', null, 'a')", :rows => "4", :style => "resize:none", :tabindex => "292"}
+                  #at16eatdr{:style => "display:none"}
+                  %label{:for => "at_from"}
+                    From:
+                    %span (email address)
+                  %input#at_from{:name => "at_from", :onfocus => "_atw.rse();", :size => "30", :tabindex => "293", :type => "text"}/
+                  %label{:for => "at_msg"}
+                    Note:
+                    %span (optional)
+                  %textarea#at_msg{:cols => "30", :onfocus => "_atw.rse();", :onkeyup => "return _atw.lml(this,255);", :rows => "4", :style => "resize:none", :tabindex => "294"}
+                  #ateml
+                    %small 255 character limit
+                  %div
+                    %input#at16sub.atbtn{:onclick => "return addthis_send();", :tabindex => "295", :type => "submit", :value => "Send"}/
+                    %input.atbtn.atrse{:onclick => "return _atw.cef()", :tabindex => "296", :type => "reset", :value => "Cancel"}/
+                #at16meo
+                  %span More:
+                  %a.at15t.at15t_gmail{:alt => "Gmail", :href => "#", :onclick => "_ate.as('gmail'); return false", :tabindex => "297"}
+                  %a.at15t.at15t_yahoomail{:alt => "Y! Mail", :href => "#", :onclick => "_ate.as('yahoomail'); return false", :tabindex => "298"}
+                  %a.at15t.at15t_hotmail{:alt => "Outlook", :href => "#", :onclick => "_ate.as('hotmail'); return false", :tabindex => "299"}
+                  %a.at15t.at15t_aolmail{:alt => "AOL Mail", :href => "#", :onclick => "_ate.as('aolmail'); return false", :tabindex => "300"}
+                  %a.at15t.at15t_mailto{:alt => "Email App", :href => "#", :onclick => "_ate.as('mailto'); return false", :tabindex => "301"}
+            #at16pf
+              %a.at-whatsthis.at-logo{:href => "http://www.addthis.com/?utm_source=mm&utm_medium=img&utm_content=AT_main_WT&utm_campaign=AT_main", :tabindex => "5500", :target => "_blank"} AddThis
+              %a#at16about.ac-about{:href => "http://www.addthis.com/privacy?utm_source=mf&utm_medium=link&utm_content=AT_privacy_MF16PC&utm_campaign=AT_privacy", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :tabindex => "7000", :target => "_blank"} Privacy
+              %a.at_baa.ac-logo{:href => "http://www.addthis.com/privacy?utm_source=mf&utm_medium=link&utm_content=AT_privacy_MF16PC&utm_campaign=AT_privacy", :onblur => "addthis_close();_ate.maf.sib.focus();", :tabindex => "8000", :target => "_blank", :title => "AdChoices"}  
+  #at15s.atm{:onmouseout => "if (this.className.indexOf('border')==-1) addthis_close()", :onmouseover => "_atw.xwa()", :style => "z-index: 1000000; position: absolute; visibility: visible; top: 145px; left: 319px; display: none;"}
+    .atm-i
+      #at15s_head{:style => "display: none;"}
+        %span#at15ptc Bookmark & Share
+        %span#at15s_brand.at15s_brandx
+        %a#at15sptx{:href => "#", :onclick => "return _atw.clb()", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}if(_ate.maf.key==9){ addthis_close(); _ate.maf.sib.tabIndex=9001;_ate.maf.sib.focus();}else{/*alert(_ate.maf.key)*/} _ate.maf.key=null", :tabindex => "9000"} X
+      #at_pspromo{:style => "display: none; visibility: hidden;"}
+        %div{:style => "position:absolute;display:block;border:0"}
+          #at_testpromo{:style => "display:block"}
+            .at-promo-single{:align => "center"}
+              %h4 Make sharing easier with AddThis for Chrome.
+              %div{:align => "center"}
+                %a{:href => "http://www.addthis.com/landing?to=chrome&utm_source=ps&utm_medium=img&utm_content=ATCH&utm_campaign=ATSPC4_DL", :target => "_blank"}
+                  #at_testpromo_bg.at-promo-single-dl-ch{:alt => "Download", :border => "0"}
+                %a{:href => "http://www.addthis.com/pages/toolbar-preferences", :style => "padding-top:10px;font-size:10px", :target => "_blank"} Don't show these
+      #at_hover.atm-s{:style => "display: block;"}
+        %a#atic_email{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('email');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_email.at16t{:style => ""} Email
+        %a#atic_print{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('print');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_print.at16t{:style => ""} Print
+        %a#atic_gmail{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('gmail');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_gmail.at16t{:style => ""} Gmail
+        %a#atic_stumbleupon{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('stumbleupon');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_stumbleupon.at16t{:style => ""} StumbleUpon
+        %a#atic_favorites{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('favorites');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_favorites.at16t{:style => ""} Favorites
+        %a#atic_tumblr{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('tumblr');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_tumblr.at16t{:style => ""} Tumblr
+        %a#atic_pinterest_share{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('pinterest_share');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_pinterest_share.at16t{:style => ""} Pinterest
+        %a#atic_more{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('more');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}"}
+          %span.at16nc.at16t_more.at16t{:style => ""} More... (290)
+        %a#atic_settings{:href => "#", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onclick => "return addthis_sendto('settings');", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :style => "display: none;"}
+          %span.at15t.at15t_settings{:style => ""} Settings...
+        %div{:style => "clear:both;"}
+      #atic_auth{:style => "display: block; visibility: visible;"}
+        %a#atic_signin
+          #at_auth Sign In
+      #at15pf.atm-f{:style => "top: 0px;"}
+        %a.at-whatsthis.at-logo{:href => "http://www.addthis.com/?utm_source=hm&utm_medium=img&utm_content=AT_main_WT&utm_campaign=AT_main", :tabindex => "5500", :target => "_blank"} AddThis
+        %a#at15about.ac-about{:href => "http://www.addthis.com/privacy?utm_source=mf&utm_medium=link&utm_content=AT_privacy_MF15PC&utm_campaign=AT_privacy", :onblur => "if(_ate.maf.key==9){_ate.maf.key=null;}else{_ate.maf.key=null;addthis_close();}", :onkeydown => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :onkeypress => "if(!e){var e = window.event||event;}if(e.keyCode){_ate.maf.key=e.keyCode;}else{if(e.which){_ate.maf.key=e.which;}}", :tabindex => "7000", :target => "_blank"} Privacy
+        %a.at_baa.ac-logo{:href => "http://www.addthis.com/privacy?utm_source=mf&utm_medium=link&utm_content=AT_privacy_MF15PC&utm_campaign=AT_privacy", :onblur => "addthis_close();_ate.maf.sib.focus();", :tabindex => "8000", :target => "_blank", :title => "AdChoices"}  
+#at3lb.at3lblight{:style => "display: none;"}
+#at3win{:style => "margin-top: 250px; opacity: 1; display: none;"}
+  .at3winwrapper
+    #at3winheader
+      %span.at3winheadersvc.at300bs.at15nc.at15t_email
+      %h3#at3winheadermsg Email
+      #at3winssi.at-quickshare-header-peep{:style => "padding: 0px 15px; font-size: 12px; line-height: 50px;"} Sign In
+      %a#at3winheaderclose{:href => "#", :title => "Close"}
+    #at3wincontent
+      #at3winemail{:style => "display: block;"}
+        %iframe{:frameborder => "0", :height => "100%", :src => "http://www.addthis.com/tellfriend.php?v=300&winname=addthis&pub=ra-5255efe73c7b0462&source=tbx32-300,men-300&lng=en&s=email&url=http%3A%2F%2Fplayinpeel.org%2F%23Details%2F544166e67243aa22884f9cbd&title=Recital%20Jazz%20Level%201%20-%20Dance%2C%20Drama%2C%20Music%20-%20Play%20in%20Peel%20by%20%40PCYI_Org&ate=AT-ra-5255efe73c7b0462/-/-/54d4991de17b02f7/6/54cff4b6faf60ce1&uid=54cff4b6faf60ce1&trackurl=http%3A%2F%2Fplayinpeel.org%2F&ct=1&uct=1&ui_email_to=&ui_email_from=&ui_email_note=&tt=0&captcha_provider=nucaptcha&at3frame=true", :width => "100%"}
+    #at3winfooter
+      %a#at3logo{:href => "//www.addthis.com/?utm_source=mm&utm_medium=img&utm_content=AT_main_LT&utm_campaign=AT_main", :target => "_blank"} AddThis
+      %a#at3privacy{:href => "//www.addthis.com/privacy?utm_source=mm&utm_medium=img&utm_content=AT_privacy_LT&utm_campaign=AT_privacy", :target => "_blank"} Privacy
