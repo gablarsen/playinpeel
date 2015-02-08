@@ -1,9 +1,10 @@
 # Route prefixes use a single letter to allow for vanity urls of two or more characters
 Rails.application.routes.draw do
 
-  get 'dropboxes/index'
-
-  get 'dropboxes/sync'
+  scope 'api' do
+    resources :activities
+    resources :facilities
+  end
 
   resources :dropboxes
 
