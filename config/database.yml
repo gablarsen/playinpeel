@@ -1,9 +1,10 @@
 default: &default
   adapter: postgresql
+  hostname: 172.16.1.86
   encoding: unicode
   pool: 5
   username: postgres
-  password: gabHeather123
+  password: postgres
 
 development:
   <<: *default

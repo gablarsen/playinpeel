@@ -1,6 +1,13 @@
 # Route prefixes use a single letter to allow for vanity urls of two or more characters
 Rails.application.routes.draw do
 
+  get 'dropboxes/index'
+
+  get 'dropboxes/sync'
+
+  resources :dropboxes
+
+  post '/static_pages' => 'static_pages#index', as: 'state_pages_post'
   resources :static_pages
 
   if defined? Sidekiq
@@ -47,6 +54,8 @@ Rails.application.routes.draw do
 
   get 'robots.:format' => 'robots#index'
 
+
   #root 'pages#home'
   root 'static_pages#index'
+
 end
