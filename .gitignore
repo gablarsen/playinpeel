@@ -22,3 +22,5 @@
 # Ignore Sublime Text workspace files
 /*.sublime-workspace
 
+
+/env-setting
