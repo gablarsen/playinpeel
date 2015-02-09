@@ -5,7 +5,6 @@ class DropboxHandler
   	file = get_file('PlayInPeelAutoImport/PlayInPeelActivities_Gabrieal.csv')
   	return nil if file.nil?
   	get_csv(file).each do |row|
-  		next
   		Activity.create({
   			Name: row['Activity.Name'].force_encoding('UTF-8'),
   			Description: row['Description'].force_encoding('UTF-8'),

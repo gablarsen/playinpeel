@@ -20,7 +20,7 @@ module StarterKit
   class Application < Rails::Application
     # Use sql instead of ruby to support case insensitive indices for postgres
     config.active_record.schema_format = :sql
-
+    Mongoid.identity_map_enabled = false
     # Cache
     # config.cache_store = :memory_store
     # config.cache_store = :mem_cache_store, ENV['MEMCACHE_SERVERS].split(','),
