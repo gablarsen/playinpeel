@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     resources :facilities
   end
 
+
+  get '/dropboxes/sync' => 'dropboxes#sync'
+
   resources :dropboxes
 
   post '/static_pages' => 'static_pages#index', as: 'state_pages_post'

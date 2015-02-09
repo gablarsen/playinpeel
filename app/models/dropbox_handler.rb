@@ -119,7 +119,7 @@ class DropboxHandler
 
 			times = ret_false
 			input.split(', ').each do |r|
-			    if input == 'Daily'
+			    if input.upcase == 'DAILY'
 			        days1.each do |day|
 			            times[day] = true
 			        end
