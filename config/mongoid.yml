@@ -101,6 +101,9 @@ test:
         retry_interval: 0
 
 production:
+  options:
+    identity_map_enabled: false
   sessions:
     default:
       uri: <%=ENV['MONGOLAB_URI']%>
+
