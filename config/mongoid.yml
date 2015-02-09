@@ -102,7 +102,7 @@ test:
 
 production:
   options:
-    identity_map_enabled: false
+    #identity_map_enabled: false
   sessions:
     default:
       uri: <%=ENV['MONGOLAB_URI']%>
