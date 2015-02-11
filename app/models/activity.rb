@@ -15,32 +15,7 @@ class Activity
 
 
   def self.search(params)
-=begin
 
-    PARAMETER DATA TYPE
-
-    #lat:0
-    #lon:0
-    #rd:100
-    
-    #ageFrom:0
-    #ageTo:660
-    #dateFrom:02-09-2015
-    #dateTo:03-11-2015
-    k:
-    #days:true,true,true,true,true,true,true
-    #timesOfDay:true,true
-    activityTypes:true,true
-    sortby:1
-    skip:1
-    take:20
-    callback:jQuery19001979395600501448_1423420250548
-    _:1423420250549
-=end
-
-
-    puts "params['ageFrom']"
-    puts params['ageFrom']
     days = params['days'].split(',')
     days_array = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     days_condition = {}
