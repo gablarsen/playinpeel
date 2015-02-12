@@ -23,15 +23,15 @@ class DropboxWorker
   		next if file == nil?
 	  	get_csv(file).each do |row|
 	  		Activity.create({
-	  			FacilityName: row['Facility'].force_encoding('UTF-8'),
-	  			Name: row['Activity.Name'].force_encoding('UTF-8'),
-	  			Description: row['Description'].force_encoding('UTF-8'),
+	  			FacilityName: encode(row['Facility']),
+	  			Name: encode(row['Activity.Name']),
+	  			Description: encode(row['Description']),
 	  			AgeFrom: valid_s(row['Age.Start']).to_i,
 	  			AgeTo: valid_s(row['Age.End']).to_i,
 	  			Code: row['Activity.Code'],
 	  			DropIn: (row['Drop.In']=='Yes')?true:false,
   				Fee: row['Fee'].to_f,
-  				FeeDescription: row['Fee.Description'].force_encoding('UTF-8'),
+  				FeeDescription: encode(row['Fee.Description']),
 	  			Times: get_times({
 						days: row['Days'],
 						start: {
@@ -62,11 +62,11 @@ class DropboxWorker
   		next if file == nil?
 	  	get_csv(file).each do |row|
 	  		Facility.create({
-	  			Name: row['Facility Name'].nil? ? "":row['Facility Name'].force_encoding('UTF-8'),
-	  			Aliases: row['Aliases (optional)'].nil? ? "":row['Aliases (optional)'].force_encoding('UTF-8'),
-	  			Address: row['Full Address'].nil? ? "":row['Full Address'].force_encoding('UTF-8'),
-	  			City: row['City'].nil? ? "":row['City'].force_encoding('UTF-8'),
-	  			Phone: row['Phone'].nil? ? "":row['Phone'].force_encoding('UTF-8'),
+	  			Name: encode(row['Facility Name']),
+	  			Aliases: encode(row['Aliases (optional)']),
+	  			Address: encode(row['Full Address']),
+	  			City: encode(row['City']),
+	  			Phone: encode(row['Phone']),
 	  			Lat: row['Latitude'].to_f,
 	  			Lon: row['Logitude'].to_f
 	  		})
@@ -191,5 +191,10 @@ class DropboxWorker
   	def valid_s(val)
   		return "" if val == nil
   		val.to_s
+  	end
+
+  	def encode(s)
+  		return "" if s==nil
+  		return s.force_encoding('UTF-8')
   	end
 end
