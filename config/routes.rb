@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
 
   get '/dropboxes/sync' => 'dropboxes#sync'
+  post '/dropboxes/sync' => 'dropboxes#sync'
 
   resources :dropboxes
 
