@@ -15,7 +15,7 @@ class DropboxesController < ApplicationController
 
   def sync
     render :text=>params[:challenge] and return unless params[:challenge].nil?
-  	DropboxWorker.perform_async
+  	#DropboxWorker.perform_async
     render :text=>'true'
   end
 end

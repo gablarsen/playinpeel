@@ -1,4 +1,5 @@
 namespace :db do
+	require 'sidekiq/api'
 	task :clear_activity => :environment do
 		Activity.destroy_all
 	end
@@ -6,4 +7,11 @@ namespace :db do
 	task :clear_facility => :environment do
 		Facility.destroy_all
 	end
+
+
+	task :import => :environment do
+		Sidekiq::ScheduledSet.new.clear
+		DropboxWorker.perform_async
+	end
+
 end
