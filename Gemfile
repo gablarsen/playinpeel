@@ -86,6 +86,7 @@ gem 'settingslogic'
 
 gem 'mongoid', '~> 4', github: 'mongoid/mongoid'
 gem 'bson_ext'
+gem 'kaminari'
 
 group :development do
   # Docs

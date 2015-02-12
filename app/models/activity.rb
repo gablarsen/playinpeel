@@ -1,51 +1,108 @@
 class Activity
   include Mongoid::Document
+  include Mongoid::Timestamps
 
+  before_save :before_save
+
+  field :FacilityName
   field :Name
   field :Description
   field :AgeFrom
   field :AgeTo
   field :Code
   field :DropIn
-  field :Fees
   field :Times
+  field :Fee
+  field :FeeDescription
 
-  validates :Code, uniqueness: true
-  # 33729
-
+  field :location, type: Array
+  index({location: '2d'})
 
   def self.search(params)
+    params_default = { #params_default
+      'lat'=> '47.982200622558594',
+      'lon'=> '-66.40912628173828',
+      'rd'=> '100',
+      'ageFrom'=> '0',
+      'ageTo'=> '660',
+      'dateFrom'=> '6-12-1999',
+      'dateTo'=> '6-12-2020',
+      'k'=> '',
+      'days'=> 'true,true,true,true,true,true,true',
+      'timesOfDay'=> 'true,true',
+      'activityTypes'=> 'true,false',
+      'sortby'=> '1',
+      'skip'=> '0',
+      'take'=>'20'
+    }
+
+    puts 'params'
+    puts params
 
     days = params['days'].split(',')
     days_array = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    days_condition = {}
+
+    days_condition = []
     days.each_with_index do |day, index|
-      b = to_b(day)
-      days_condition["Times.#{days_array[index]}"] = true if b
+      days_condition << {"Times.#{days_array[index]}" => true} if day == 'true'
     end
 
     r = params['timesOfDay'].split(',')
     timesOfDay = [to_b(r[0]) ? 'AM':nil, to_b(r[1]) ? 'PM':nil]
 
     r = params['activityTypes'].split(',')
-    activityTypes = [to_b(r[0]), to_b(r[1])]
+    activityTypes = [!to_b(r[0]), to_b(r[1])]
 
-    return Activity.where(
-      "AgeFrom" => {"$gte"=>params['ageFrom'].to_i},
-      "AgeTo" => {"$gte"=>params['ageTo'].to_i},
-      "AgeTo" => {"$gte"=>params['ageTo'].to_i},
-      "Times.StartDate"=>{"$gte"=>Date.strptime(params['dateFrom'],'%m-%d-%Y')},
-      "Times.EndDate"=>{"$lte"=>Date.strptime(params['dateTo'],'%m-%d-%Y')},
-      "Times.timesOfDay" => { "$in" => timesOfDay },
-      "DropIn" => { "$in" => activityTypes }
-      ).any_of(
-        days_condition
+
+    primary_conditions = [
+      {
+        "$or"=>[
+          "Times.StartDate"=>{"$gte"=>Date.strptime(params['dateFrom'],'%m-%d-%Y')},
+          "Times.EndDate"=>{"$lte"=>Date.strptime(params['dateTo'],'%m-%d-%Y')}
+        ]
+      },
+      {
+        "$or"=>[
+          "AgeFrom" => {"$gte"=>params['ageFrom'].to_i},
+          "AgeTo" => {"$lte"=>params['ageTo'].to_i}
+        ]
+      },
+      {"Times.TimeOfDay" => { "$in" => timesOfDay } },
+      {"DropIn" => { "$in" => activityTypes } },
+      {
+        "$or" => days_condition,
+      },
+    ]
+
+    primary_conditions << { "Description" => /#{params['k']}/ } unless params['k'].blank?
+
+
+    return Activity
+      .where(
+        {
+          "$and" => primary_conditions
+        }
       )
-    .skip((params['skip'].to_i-1)*params['take'].to_i).take(params['take'].to_i)
+      .page(params['skip'].to_i).per(params['take'].to_i)
+      .geo_near([params['lon'].to_f, params['lat'].to_f]).max_distance(params['rd'].to_i*1609)
   end
 
   private
+
+    def before_save
+      facility_query = Facility.where(Name: self.FacilityName)
+      return if facility_query.count == 0
+
+      facility = facility_query.first
+      self['Facility'] = facility.attributes
+      self.location = [ facility.attributes['Lon'].to_f, facility.attributes['Lat'].to_f ]
+    end
+
+
     def self.to_b(value)
       value == 'true'
     end
+
+
+
 end

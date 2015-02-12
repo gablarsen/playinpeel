@@ -9,7 +9,9 @@ class Facility
   field :Lat
   field :Lon
 
-  validates_uniqueness_of :Lat, :scope => :Lon
+  validates :Name, uniqueness: true
+
+  #validates_uniqueness_of :Lat, :scope => :Lon
 
   # 177
 end

@@ -78,7 +78,7 @@
                     self.lon(position.coords.longitude);
                     self.parent.needsGeoCoding(false);
                     var point = self.lat() + ',' + self.lon();
-                    var reverseGeoCodingUrl = 'http://dev.virtualearth.net/REST/v1/Locations/' + point + '?key=' + bingKey;
+                    var reverseGeoCodingUrl = '//dev.virtualearth.net/REST/v1/Locations/' + point + '?key=' + bingKey;
                     $.getJSON(reverseGeoCodingUrl + '&jsonp=?', null, function (results) {
                         self.address(results.resourceSets[0].resources[0].address.formattedAddress);                        
                         self.parent.doSearch();

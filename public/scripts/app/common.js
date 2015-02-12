@@ -1,11 +1,12 @@
-﻿var apiBaseUrl = "http://api.playinpeel.gotdns.org/";
+﻿var apiBaseUrl;
+apiBaseUrl = "http://api.playinpeel.gotdns.org/";
 //var apiBaseUrl = "http://api.opengraf.org/";
 
-//var apiBaseUrl = "";
+apiBaseUrl = "";
 var bingKey = 'AuiJ711hYx4DRMmXcz7jzUAh6IXmAwlszWhZ6x7jq1JTCPP0kFPZgX6nWEG8EX0y';
-var mapUrlTemplate = "http://www.bing.com/maps/?v=2&where1=#LOCATION#";
-var directionsTemplate = "http://bing.com/maps/default.aspx?v=2&Rtp=pos.#LAT1#_#LNG1#~pos.#LAT2#_#LNG2#";
-var distanceTemplate = "http://dev.virtualearth.net/REST/V1/Routes/Walking?wp.0=#POINT1#&wp.1=#POINT2#";
+var mapUrlTemplate = "//www.bing.com/maps/?v=2&where1=#LOCATION#";
+var directionsTemplate = "//bing.com/maps/default.aspx?v=2&Rtp=pos.#LAT1#_#LNG1#~pos.#LAT2#_#LNG2#";
+var distanceTemplate = "//dev.virtualearth.net/REST/V1/Routes/Walking?wp.0=#POINT1#&wp.1=#POINT2#";
 $.support.cors = true;
 
 if (!String.prototype.trim) {

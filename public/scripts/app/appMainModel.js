@@ -124,7 +124,7 @@
     //Address
     self.doGeoCoding = function () {
         // Geo-coding                           
-        var url = 'http://dev.virtualearth.net/REST/v1/Locations/' + self.searchOptions().address() + '?userlocation=62.83300018310547,-95.91400146484375&includeNeighborhood=1&maxresults=20&key=' + bingKey;
+        var url = '//dev.virtualearth.net/REST/v1/Locations/' + self.searchOptions().address() + '?userlocation=62.83300018310547,-95.91400146484375&includeNeighborhood=1&maxresults=20&key=' + bingKey;
         $.getJSON(url + '&jsonp=?', null, function (results) {
             if (results.resourceSets[0].resources.length > 0 && results.resourceSets[0].resources[0].point) {
                 self.needsGeoCoding(false);

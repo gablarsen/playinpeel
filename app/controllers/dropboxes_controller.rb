@@ -6,6 +6,10 @@ class DropboxesController < ApplicationController
   end
 
   def show
+    #render :text=>params[:challenge] and return unless params[:challenge].nil?
+    #DropboxWorker.perform_async
+    #DropboxHandler.test
+    
   end
 
   def sync

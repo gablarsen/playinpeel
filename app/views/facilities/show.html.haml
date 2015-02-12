@@ -1,2 +1,602 @@
-%h1 Facilities#show
-%p Find me in app/views/facilities/show.html.haml
+.container{"data-bind" => "visible: isListVisible", :style => "display: none;"}
+  / Header Start
+  .row
+    .col-md-2.col-sm-3.col-xs-3
+      %img.logo{:src => "/styles/images/PLAY_logo.png"}/
+      %button.btn.btn-info.btn-top-search.btn-search.visible-xs{"data-bind" => "click: doSearch", "data-loading-text" => "loading...", :style => "margin-top:4px"} Search
+    .col-md-8.col-sm-6.col-xs-9.form-horizontal
+      .form-group
+        .col-md-12
+          .input-group
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-map-marker
+            %input#address.form-control{"data-bind" => "value: searchOptions().address,  popover: '#addressSuggestionTemplate', event: { keyup: searchOptions().addressChanged }", "data-original-title" => "", :placeholder => "Address...", :title => "", :type => "text"}/
+      .form-group
+        .col-md-12
+          .input-group
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-search
+            %input#searchKeywords.form-control{"data-bind" => "value: searchOptions().keywords ,event: {keyup: submitOnEnter}", :placeholder => "Keyword search...", :type => "search"}/
+    .col-md-2.col-sm-3.col-xs-12.hidden-xs
+      %button.btn.btn-info.btn-top-search.btn-search{"data-bind" => "click: doSearch", "data-loading-text" => "loading..."} Search
+  .row
+    .col-md-2.col-sm-2.visible-md.visible-lg
+      .addthis_toolbox.addthis_default_style.addthis_32x32_style.add_this.share-box
+        %a.addthis_button_facebook.at300b{:href => "#", :title => "Facebook"}
+          %span.at4-icon.aticon-facebook{:style => "background-color: rgb(48, 88, 145);"}
+            %span.at_a11y Share on facebook
+        %a.addthis_button_twitter.at300b{:href => "#", :title => "Tweet"}
+          %span.at4-icon.aticon-twitter{:style => "background-color: rgb(44, 168, 210);"}
+            %span.at_a11y Share on twitter
+        %a.addthis_button_google.at300b{:href => "http://www.addthis.com/bookmark.php?v=300&winname=addthis&pub=ra-5255efe73c7b0462&source=tbx32-300&lng=en-us&s=google&url=http%3A%2F%2Fplayinpeel.com%2F%23Details%2F540f48847243aa0d940ac909&title=Wellness%20-%20Yoga%20-%20Introduction%20-%20Play%20in%20Peel%20by%20%40PCYI_Org&ate=AT-ra-5255efe73c7b0462/-/-/54dcdd451c6d682f/4&frommenu=1&uid=54dcdd4571202fb9&ct=1&uct=1&tt=0&captcha_provider=nucaptcha", :target => "_blank", :title => "Google"}
+          %span.at4-icon.aticon-google{:style => "background-color: rgb(8, 104, 185);"}
+            %span.at_a11y Share on google
+        %a.addthis_button_compact.at300m{:href => "#"}
+          %span.at4-icon.aticon-compact{:style => "background-color: rgb(252, 109, 76);"}
+            %span.at_a11y More Sharing Services
+        .atclear
+        .atclear
+    .col-md-9.col-xs-12.intro
+      %blockquote
+        .small-font-size.hidden-xs Play in Peel is a web app that allows you to search for recreation, arts, culture and library activities in the City of Mississauga, the City of Brampton and the town of Caledon. Access on your computer, smart phone or tablet to enter your search terms and click to see what’s available.
+        %small
+          Brought to you by the
+          %strong Peel Children and Youth Initiative
+          in partnership with
+          %strong Microsoft
+  / Header End
+%hr.page-break{"data-bind" => "visible: isListVisible", :style => "display: none;"}/
+.container.search-container{"data-bind" => "visible: isListVisible", :style => "display: none;"}
+  .row
+    .col-md-2.col-sm-3.col-xs-12
+      / Search Options Start
+      .well.well-sm.search-options
+        .title
+          %i#expand-search-options.glyphicon.glyphicon-minus
+          Options
+          %i#search-tooltip.glyphicon.glyphicon-question-sign{"data-original-title" => "", :title => ""}
+        %hr.divider/
+        #all-search-options
+          %div Age:
+          %div{:style => "float:left;margin-right:30px"}
+            From:
+            %span{"data-bind" => "text: searchOptions().ageFrom()"} 0
+          %div
+            To:
+            %span{"data-bind" => "text: searchOptions().displayAgeTo()"} 55+
+          #ageRange.search-slider.ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all{"aria-disabled" => "false"}
+            .ui-slider-range.ui-widget-header.ui-corner-all{:style => "left: 0%; width: 100%;"}
+            %a.ui-slider-handle.ui-state-default.ui-corner-all{:href => "#", :style => "left: 0%;"}
+            %a.ui-slider-handle.ui-state-default.ui-corner-all{:href => "#", :style => "left: 100%;"}
+          %hr.divider/
+          %div Date Range:
+          .input-group{"data-bind" => "attr: { 'data-date': searchOptions().dateFrom() }", "data-date" => "02-13-2015"}
+            %input#dateFrom.form-control.input-sm{"data-bind" => "value: searchOptions().dateFrom()", :placeholder => "from...", :type => "text"}/
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-calendar
+          .input-group{"data-bind" => "attr: { 'data-date': searchOptions().dateTo() }", "data-date" => "03-15-2015"}
+            %input#dateTo.form-control.input-sm{"data-bind" => "value: searchOptions().dateTo()", :placeholder => "to...", :type => "text"}/
+            %span.input-group-addon
+              %span.glyphicon.glyphicon-calendar
+          %hr.divider/
+          %div Activity Type:
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Registration"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().activityTypes()[0].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Drop-In"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().activityTypes()[1].checked", :type => "checkbox"}/
+          %hr.divider/
+          %div Time of Day:
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "AM"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().timesOfDay()[0].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "PM"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().timesOfDay()[1].checked", :type => "checkbox"}/
+          %hr.divider/
+          %div Days:
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Monday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[0].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Tuesday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[1].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Wednesday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[2].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Thursday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[3].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Friday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[4].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Saturday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[5].checked", :type => "checkbox"}/
+          .input-group
+            %input.form-control.dummy-readonly{:readonly => "readonly", :type => "text", :value => "Sunday"}/
+            %span.input-group-addon
+              %input{"data-bind" => "checked: searchOptions().days()[6].checked", :type => "checkbox"}/
+          %hr.divider/
+          %button#searchbtn2.btn.btn-info.btn-search{"data-bind" => "click: doSearch", "data-loading-text" => "loading...", :type => "submit"} Apply..
+          .clear
+      / Search Options End
+    .col-md-10.col-sm-9.col-xs-12
+      #page-message.hide
+      #activities-result.activities{"data-bind" => "foreach: activities, visible: activities().length > 0", :style => "display:none"}
+%script#addressSuggestionTemplate{:type => "html/text"}
+  :cdata
+    <h4>We found many of these... Which one should we use?</h4>
+    <div data-bind='foreach:$data.searchOptions().possibleAddresses'>
+    <div class="single-address-suggestion">
+    <span class="clickable" style='color:black' data-bind='text:name, click:$parent.setManualAddress'></span>
+    </div>
+    </div>
+.details-header{"data-bind" => "visible: !isListVisible(), with: details()"}
+  / ko if: activity() != null
+  .container
+    / Header Start
+    .row
+      .col-md-2.col-sm-3.col-xs-3
+        %img.logo.link{"data-bind" => "click: $parent.goBack", :src => "/styles/images/PLAY_logo.png"}/
+        .clickable.centered{"data-bind" => "click: $parent.goBack"}
+          %strong
+            %span.glyphicon.glyphicon-arrow-left
+            Back to search
+      .col-md-10.col-sm-9.col-xs-9
+        %h3{"data-bind" => "html: activity().Name"} Wellness - Yoga - Introduction
+        .clearfix
+        %span.offered
+          Offered by:
+          %strong{"data-bind" => "text: activity().Organization.Name"} City of Brampton
+        .visible-md.hidden-xs
+          .addthis_toolbox.addthis_default_style.addthis_32x32_style.add_this.share-box
+            %a.addthis_button_facebook.at300b{:href => "#", :title => "Facebook"}
+              %span.at4-icon.aticon-facebook{:style => "background-color: rgb(48, 88, 145);"}
+                %span.at_a11y Share on facebook
+            %a.addthis_button_twitter.at300b{:href => "#", :title => "Tweet"}
+              %span.at4-icon.aticon-twitter{:style => "background-color: rgb(44, 168, 210);"}
+                %span.at_a11y Share on twitter
+            %a.addthis_button_google.at300b{:href => "http://www.addthis.com/bookmark.php?v=300&winname=addthis&pub=ra-5255efe73c7b0462&source=tbx32-300&lng=en-us&s=google&url=http%3A%2F%2Fplayinpeel.com%2F%23Details%2F540f48847243aa0d940ac909&title=Wellness%20-%20Yoga%20-%20Introduction%20-%20Play%20in%20Peel%20by%20%40PCYI_Org&ate=AT-ra-5255efe73c7b0462/-/-/54dcdd451c6d682f/5&frommenu=1&uid=54dcdd456dc32b9c&ct=1&uct=1&tt=0&captcha_provider=nucaptcha", :target => "_blank", :title => "Google"}
+              %span.at4-icon.aticon-google{:style => "background-color: rgb(8, 104, 185);"}
+                %span.at_a11y Share on google
+            %a.addthis_button_compact.at300m{:href => "#"}
+              %span.at4-icon.aticon-compact{:style => "background-color: rgb(252, 109, 76);"}
+                %span.at_a11y More Sharing Services
+            .atclear
+            .atclear
+    / Header End
+  %hr.page-break/
+  .container
+    .row
+      / General Info - Start
+      .col-md-6.col-sm-6
+        .loading.loading-activity-details
+        %strong Description
+        .long-description
+          %h1.label.label-primary{"data-bind" => "visible: activity().DropIn", :style => "display: none;"} DROP-IN
+          %br/
+          %p{"data-bind" => "text: activity().Description"} Introductory Yoga will begin your journey into the Yoga experience.  Relax your mind and learn to handle everyday stress in a peaceful environment.  Please bring your own Yoga mat.
+          %p{"data-bind" => "html: activity().Organization.GeneralActivityDescription"}
+            For more information please go to
+            %a{:href => "http://www.brampton.ca", :target => "_blank"} Brampton.ca
+            or call 905-874-2300
+          %p{"data-bind" => "visible: (activity().Organization.ServiceLink)"}
+            %a{"data-bind" => "attr: {href: activity().Organization.ServiceLink}", :href => "http://www.brampton.ca/en/residents/Pages/eRegister.aspx", :target => "_blank"} Customer Service
+        %hr/
+        .row
+          .col-md-4.col-sm-6
+            %strong Ages
+            %br/
+            Ages from
+            %span{"data-bind" => "text: convertToYears(activity().AgeFrom)"} 14
+            to
+            %span{"data-bind" => "text:convertToYears(activity().AgeTo)"} 100
+          .col-md-4.col-sm-6
+            %strong Fees
+            %br/
+            %div{"data-bind" => "foreach: activity().Fees"}
+              %span{"data-bind" => "text: (Description) ? Description : Name"}> Resident
+              \: $
+              %span{"data-bind" => "text: Cost.toFixed(2) "} 71.00
+              %br/
+              = succeed ":" do
+                %span{"data-bind" => "text: (Description) ? Description : Name"} Resident
+              %span{"data-bind" => "text: Cost.toFixed(2) "} 71.00
+              %br/
+              = succeed ":" do
+                %span{"data-bind" => "text: (Description) ? Description : Name"} Resident
+              %span{"data-bind" => "text: Cost.toFixed(2) "} 71.00
+              %br/
+              = succeed ":" do
+                %span{"data-bind" => "text: (Description) ? Description : Name"} Resident
+              %span{"data-bind" => "text: Cost.toFixed(2) "} 71.00
+              %br/
+              = succeed ":" do
+                %span{"data-bind" => "text: (Description) ? Description : Name"} Resident
+              %span{"data-bind" => "text: Cost.toFixed(2) "} 71.00
+              %br/
+              = succeed ":" do
+                %span{"data-bind" => "text: (Description) ? Description : Name"} Resident
+              %span{"data-bind" => "text: Cost.toFixed(2) "} 71.00
+              %br/
+          .col-md-4.col-sm-12.schedule
+            .heading
+              %i
+              %span{"data-bind" => "text: displayDate(activity().SelectedTime.StartDate)"} Jan 8, 2015
+              \-
+              %span{"data-bind" => "text: displayDate(activity().SelectedTime.EndDate)"} Mar 12, 2015
+            .days
+              %span{"data-bind" => "visible: activity().SelectedTime.Monday", :style => "display: none;"} Mondays,
+              %span{"data-bind" => "visible: activity().SelectedTime.Tuesday", :style => "display: none;"} Tuesdays,
+              %span{"data-bind" => "visible: activity().SelectedTime.Wednesday"} Wednesdays,
+              %span{"data-bind" => "visible: activity().SelectedTime.Thursday", :style => "display: none;"} Thursdays,
+              %span{"data-bind" => "visible: activity().SelectedTime.Friday", :style => "display: none;"} Fridays,
+              %span{"data-bind" => "visible: activity().SelectedTime.Saturday", :style => "display: none;"} Saturdays,
+              %span{"data-bind" => "visible: activity().SelectedTime.Sunday", :style => "display: none;"} Sundays
+              %br/
+              %span{"data-bind" => "text: displayTime(activity().SelectedTime.StartDate)"} 8:00:00 am
+              \-
+              %span{"data-bind" => "text: displayTime(activity().SelectedTime.EndDate)"} 7:55:00 am
+            .clearfix
+        %hr/
+      / General Info - Ends
+      / Facility Info - Start
+      .col-md-3.col-sm-6{:style => "min-width:270px !important;"}
+        %address
+          %strong{"data-bind" => "text: activity().Resource.Facility.Name"} Mount Pleasant
+          %br/
+          %span{"data-bind" => "text: activity().Resource.Facility.Address"}
+          %br/
+          %a{"data-bind" => "attr: { href: mapUrlTemplate.replace('#LOCATION#', activity().Resource.Facility.Address) }", :href => "http://www.bing.com/maps/?v=2&where1=", :target => "_blank"} Larger Map
+          %br/
+          %div{"data-bind" => "visible: activity().Resource.Facility.Phone ", :style => "display: none;"}
+            %abbr{:title => "Phone"} P:
+            %span{"data-bind" => "text: activity().Resource.Facility.Phone"}
+        #mapviewer{:style => "position:relative;width:280px; height:200px;"}
+          .MicrosoftMap.MapTypeId_auto.verySmall{:style => "z-index: 0; overflow: hidden; direction: ltr !important; position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; cursor: url(http://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20141118162111.86/cursors/grab.cur) 10 9, move; background-color: rgb(244, 242, 238);"}
+            .MicrosoftNav.MapTypeId_auto
+              .OverlaysTL
+                .NavBar_compassControlContainer
+                  %a.NavBar_button.NavBar_toolButton.NavBar_rotateLeft{:href => "#", :style => "visibility: hidden;", :title => "Rotate left", :uici => "NB.CS.RotateLeft"}
+                  %a.NavBar_compass.NavBar_compassFlat{:href => "#", :title => "Click to pan in any direction", :uici => "NB.CS.PanControl"} N
+                  %a.NavBar_button.NavBar_toolButton.NavBar_rotateRight{:href => "#", :style => "visibility: hidden;", :title => "Rotate right", :uici => "NB.CS.RotateRight"}
+                .NavBar_zoomControlContainer
+                  %a.NavBar_button.NavBar_toolButton.NavBar_zoomOut{:href => "#", :title => "Zoom out", :uici => "NB.ZC.ZoomOut"}
+                  %a.NavBar_button.NavBar_toolButton.NavBar_zoomIn{:href => "#", :title => "Zoom in", :uici => "NB.ZC.ZoomIn"}
+                .NavBar_modeSelectorControlContainer
+                  %span.NavBar_separator
+                  %span.NavBar_button.NavBar_typeButton
+                    %a.NavBar_typeButtonLabel.NavBar_MapType_auto{:href => "#"} Automatic
+                    %span.separator
+                    %a.NavBar_dropIconContainer{:href => "#"}
+                      %span.NavBar_dropIcon
+                %span{:style => "display: block; height: 0px; width: 0px; line-height: 0; font-size: 0px; clear: both;"}
+              %span{:style => "display: block; height: 0px; width: 0px; line-height: 0; font-size: 0px; clear: both;"}
+            %button{:style => "position: fixed; width: 1px; height: 1px; left: 0px; top: 0px; padding: 0px; font-size: 0px; line-height: 0; border: 0px; background: transparent;", :tabindex => "-1"}
+            %div{:style => "z-index: 0; position: absolute; left: 50%; top: 50%;"}
+              %div{:style => "position: absolute; z-index: 0; left: 0px; top: 0px;"}
+                %div{:style => "position: absolute; white-space: nowrap; line-height: 0; width: 512px; height: 512px; transform-origin: 0px 0px 0px; transform: matrix(64, 0, 0, 64, -16383, -16383); display: block;"}
+                  %img{:border => "0", :height => "256", :src => "http://ak.t3.tiles.virtualearth.net/tiles/r033333333?g=3262&mkt=en-us&lbl=l0&stl=h&shading=hill&n=z", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 0px; top: 0px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+                  %img{:border => "0", :height => "256", :src => "http://ak.t2.tiles.virtualearth.net/tiles/r122222222?g=3262&mkt=en-us&lbl=l0&stl=h&shading=hill&n=z", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 256px; top: 0px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+                  %img{:border => "0", :height => "256", :src => "http://ak.t1.tiles.virtualearth.net/tiles/r211111111?g=3262&mkt=en-us&lbl=l0&stl=h&shading=hill&n=z", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 0px; top: 256px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+                  %img{:border => "0", :height => "256", :src => "http://ak.t0.tiles.virtualearth.net/tiles/r300000000?g=3262&mkt=en-us&lbl=l0&stl=h&shading=hill&n=z", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 256px; top: 256px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+                %div{:style => "position: absolute; white-space: nowrap; line-height: 0; width: 512px; height: 512px; left: -256px; top: -256px; display: block;"}
+                  %img{:border => "0", :height => "256", :src => "http://ak.dynamic.t3.tiles.virtualearth.net/comp/ch/033333333333333?mkt=en-us&it=G,L&shading=hill&og=74&n=z&key=AuiJ711hYx4DRMmXcz7jzUAh6IXmAwlszWhZ6x7jq1JTCPP0kFPZgX6nWEG8EX0y", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 0px; top: 0px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+                  %img{:border => "0", :height => "256", :src => "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/122222222222222?mkt=en-us&it=G,L&shading=hill&og=74&n=z&key=AuiJ711hYx4DRMmXcz7jzUAh6IXmAwlszWhZ6x7jq1JTCPP0kFPZgX6nWEG8EX0y", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 256px; top: 0px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+                  %img{:border => "0", :height => "256", :src => "http://ak.dynamic.t1.tiles.virtualearth.net/comp/ch/211111111111111?mkt=en-us&it=G,L&shading=hill&og=74&n=z&key=AuiJ711hYx4DRMmXcz7jzUAh6IXmAwlszWhZ6x7jq1JTCPP0kFPZgX6nWEG8EX0y", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 0px; top: 256px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+                  %img{:border => "0", :height => "256", :src => "http://ak.dynamic.t0.tiles.virtualearth.net/comp/ch/300000000000000?mkt=en-us&it=G,L&shading=hill&og=74&n=z&key=AuiJ711hYx4DRMmXcz7jzUAh6IXmAwlszWhZ6x7jq1JTCPP0kFPZgX6nWEG8EX0y", :style => "width: 256px; height: 256px; border: 0px; position: absolute; left: 256px; top: 256px; -webkit-transform: translate3d(0px, 0px, 0px); visibility: visible;", :width => "256"}/
+              %div{:style => "position: absolute; z-index: 0; left: 0px; top: 0px;"}
+                %div{:style => "position: absolute; left: 0px; top: 0px; display: block;"}
+                  %a#null.MapPushpinBase{:href => "#", :style => "position: absolute; cursor: inherit; overflow: hidden; pointer-events: all; left: -13px; top: -39px; width: 25px; height: 39px; line-height: 0px;"}
+                    %img{:src => "http://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20141118162111.86/i/poi_search.png"}/
+            %div{:style => "z-index: 0; position: absolute; left: 50%; top: 50%;"}
+            .OverlaysBR-logoAware
+              .ScaleBarContainer.DoubleScaleBar
+                %span.ScaleBar{:style => "width: 65px;"}
+                  %span
+                    %span.shadowtextDark 1000 feet
+                  %span.scalerect
+                %span.ScaleBar{:style => "width: 54px;"}
+                  %span
+                    %span.shadowtextDark 250 m
+                  %span.scalerect
+              .CopyrightContainer
+                %span.shadowtextDark
+                  %span.copyrightAttribution © 2015 Nokia
+                  %span.copyrightAttribution © 2015 Microsoft Corporation
+              %span{:style => "display: block; height: 0px; width: 0px; line-height: 0; font-size: 0px; clear: both;"}
+            .OverlaysBL
+              .LogoContainer
+                %a{:href => "http://www.bing.com", :target => "mc_bingMaps", :title => "Bing Maps"}
+                  %span#bingLogo
+                  %span#cobrandLogo{:style => "display: none;"}
+                  %span.ms-clear{:style => "float: none !important;"}
+                .LogoSearchContainer{:style => "display: none;"}
+                  .LogoSearchGroup
+                    %input#LogoSearchInput.watermark{:maxlength => "60", :type => "text"}/
+                    %input#LogoSearchGo{:title => "Search on Bing", :type => "button"}/
+              %span{:style => "display: block; height: 0px; width: 0px; line-height: 0; font-size: 0px; clear: both;"}
+        #drivingDirections{"data-bind" => "visible: drivingDistance().length > 0", :style => "display: none;"}
+          %span.muted
+            %a.clickable{"data-bind" => "click: showDrivingInstructions"} driving directions 
+          %span.travelDistance{"data-bind" => "text:drivingDistance"}
+        #walkingDirections{"data-bind" => "visible: walkingDistance().length > 0", :style => "display: none;"}
+          %span.muted
+            %a.clickable{"data-bind" => "click: showWalkingInstructions"} walking directions
+          %span.travelDistance{"data-bind" => "text:walkingDistance"}
+        .directions-instructions{"data-bind" => "visible: displayInstructionsType().length > 0", :style => "display: none;"}
+          %span{"data-bind" => "text:displayInstructionsType()"}
+          Instructions
+          %i.glyphicon.glyphicon-remove{"data-bind" => "click:clearInstructions", :title => "Clear Instructions"}
+        .instructions{"data-bind" => "foreach:displayInstructions"}
+      / Facility Info - ends
+      / Other activities - Start
+      .clearfix.visible-md
+      %hr.page-break.visible-sm/
+      .col-md-3.col-sm-12.other-activities
+        .clearfix
+        %strong Other Activities at this Location:
+        %div{"data-bind" => "foreach: otherActivities"}
+      / Other Activities - ends
+  / /ko
+%script{:src => "http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"}
+%script{:src => "http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.js"}
+%script{:src => "http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"}
+%script{:charset => "UTF-8", :src => "http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0", :type => "text/javascript"}
+%script{:src => "http://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20141118162111.86/js/en-us/veapicore.js", :type => "text/javascript"}
+%script{:src => "./scripts/libs/bootstrap-datepicker.js"}
+%script{:src => "./scripts/libs/moment.js"}
+%script{:src => "./scripts/libs/sammy.js"}
+%script{:src => "./scripts/libs/sammy.googleanalytics.js"}
+%script{:src => "./scripts/libs/bootstrap.min.js"}
+%script{:src => "./scripts/app/common.js"}
+%script{:src => "./scripts/app/appMainModel.js"}
+%script{:src => "./scripts/app/detailsModel.js"}
+%script{:src => "./scripts/app/searchOptions.js"}
+%script{:src => "./scripts/app/navigation.js"}
+%script{:src => "./scripts/pcyi-main.js"}
+:javascript
+  var addthis_config = { "data_track_addressbar": true };
+%script{:src => "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5255efe73c7b0462", :type => "text/javascript"}
+#_atssh{:style => "visibility: hidden; height: 1px; width: 1px; position: absolute; top: -9999px; z-index: 100000;"}
+  %iframe#_atssh115{:src => "//s7.addthis.com/static/r07/sh188.html#iit=1423760711430&tmr=load%3D1423760709256%26core%3D1423760709529%26main%3D1423760711421%26ifr%3D1423760711440&cb=0&cdn=0&kw=&ab=-&dh=playinpeel.com&dr=&du=http%3A%2F%2Fplayinpeel.com%2F%23Details%2F540f48847243aa0d940ac909&dt=Wellness%20-%20Yoga%20-%20Introduction%20-%20Play%20in%20Peel%20by%20%40PCYI_Org&dbg=0&cap=tc%3D0%26ab%3D1&inst=1&jsl=1&prod=undefined&lng=en-us&ogt=title&pc=men&pub=ra-5255efe73c7b0462&ssl=0&sid=54dcdd451c6d682f&srpl=1&srcs=1&srd=1&srf=1&srx=1&ver=300&xck=0&xtr=0&og=title%3DWellness%2520-%2520Yoga%2520-%2520Introduction%2520-%2520Play%2520in%2520Peel%2520by%2520%2540PCYI_Org&aa=0&csi=undefined&toLoJson=uvs%3D54dcd7440e5029ba006%26chr%3DUTF-8%26md%3D0%26vcl%3D1&rrev=17.5-edge&ct=1&xld=1&xd=1", :style => "height: 1px; width: 1px; position: absolute; top: 0px; z-index: 100000; border: 0px; left: 0px;", :title => "AddThis utility frame"}
+%script{:src => "http://s7.addthis.com/static/r07/core185.js", :type => "text/javascript"}
+:javascript
+  (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+  ga('create', 'UA-44673719-1', 'playinpeel.org');
+.datepicker.dropdown-menu
+  .datepicker-days{:style => "display: block;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} February 2015
+          %th.next ›
+        %tr
+          %th.dow Su
+          %th.dow Mo
+          %th.dow Tu
+          %th.dow We
+          %th.dow Th
+          %th.dow Fr
+          %th.dow Sa
+      %tbody
+        %tr
+          %td.day.old 25
+          %td.day.old 26
+          %td.day.old 27
+          %td.day.old 28
+          %td.day.old 29
+          %td.day.old 30
+          %td.day.old 31
+        %tr
+          %td.day 1
+          %td.day 2
+          %td.day 3
+          %td.day 4
+          %td.day 5
+          %td.day 6
+          %td.day 7
+        %tr
+          %td.day 8
+          %td.day 9
+          %td.day 10
+          %td.day 11
+          %td.day 12
+          %td.day.active 13
+          %td.day 14
+        %tr
+          %td.day 15
+          %td.day 16
+          %td.day 17
+          %td.day 18
+          %td.day 19
+          %td.day 20
+          %td.day 21
+        %tr
+          %td.day 22
+          %td.day 23
+          %td.day 24
+          %td.day 25
+          %td.day 26
+          %td.day 27
+          %td.day 28
+        %tr
+          %td.day.new 1
+          %td.day.new 2
+          %td.day.new 3
+          %td.day.new 4
+          %td.day.new 5
+          %td.day.new 6
+          %td.day.new 7
+  .datepicker-months{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2015
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.month Jan
+            %span.month.active Feb
+            %span.month Mar
+            %span.month Apr
+            %span.month May
+            %span.month Jun
+            %span.month Jul
+            %span.month Aug
+            %span.month Sep
+            %span.month Oct
+            %span.month Nov
+            %span.month Dec
+  .datepicker-years{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2010-2019
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.year.old 2009
+            %span.year 2010
+            %span.year 2011
+            %span.year 2012
+            %span.year 2013
+            %span.year 2014
+            %span.year.active 2015
+            %span.year 2016
+            %span.year 2017
+            %span.year 2018
+            %span.year 2019
+            %span.year.old 2020
+.datepicker.dropdown-menu
+  .datepicker-days{:style => "display: block;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} March 2015
+          %th.next ›
+        %tr
+          %th.dow Su
+          %th.dow Mo
+          %th.dow Tu
+          %th.dow We
+          %th.dow Th
+          %th.dow Fr
+          %th.dow Sa
+      %tbody
+        %tr
+          %td.day.old 22
+          %td.day.old 23
+          %td.day.old 24
+          %td.day.old 25
+          %td.day.old 26
+          %td.day.old 27
+          %td.day.old 28
+        %tr
+          %td.day 1
+          %td.day 2
+          %td.day 3
+          %td.day 4
+          %td.day 5
+          %td.day 6
+          %td.day 7
+        %tr
+          %td.day 8
+          %td.day 9
+          %td.day 10
+          %td.day 11
+          %td.day 12
+          %td.day 13
+          %td.day 14
+        %tr
+          %td.day.active 15
+          %td.day 16
+          %td.day 17
+          %td.day 18
+          %td.day 19
+          %td.day 20
+          %td.day 21
+        %tr
+          %td.day 22
+          %td.day 23
+          %td.day 24
+          %td.day 25
+          %td.day 26
+          %td.day 27
+          %td.day 28
+        %tr
+          %td.day 29
+          %td.day 30
+          %td.day 31
+          %td.day.new 1
+          %td.day.new 2
+          %td.day.new 3
+          %td.day.new 4
+  .datepicker-months{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2015
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.month Jan
+            %span.month Feb
+            %span.month.active Mar
+            %span.month Apr
+            %span.month May
+            %span.month Jun
+            %span.month Jul
+            %span.month Aug
+            %span.month Sep
+            %span.month Oct
+            %span.month Nov
+            %span.month Dec
+  .datepicker-years{:style => "display: none;"}
+    %table.table-condensed
+      %thead
+        %tr
+          %th.prev ‹
+          %th.switch{:colspan => "5"} 2010-2019
+          %th.next ›
+      %tbody
+        %tr
+          %td{:colspan => "7"}
+            %span.year.old 2009
+            %span.year 2010
+            %span.year 2011
+            %span.year 2012
+            %span.year 2013
+            %span.year 2014
+            %span.year.active 2015
+            %span.year 2016
+            %span.year 2017
+            %span.year 2018
+            %span.year 2019
+            %span.year.old 2020
