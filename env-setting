@@ -1,13 +1,55 @@
 /usr/local/Cellar/memcached/1.4.20/bin/memcached
 redis-server
 bundle exec sidekiq
+
 rake db:mongoid:remove_indexes
 rake db:mongoid:create_indexes
-
-
 rake sidekiq:clear
+
 bundle exec sidekiq
 
 Activity.destroy_all
 Facility.destroy_all
+
+
+
+heroku addons:add heroku-postgresql
+heroku addons:add memcachier
+heroku addons:add newrelic
+heroku addons:add pgbackups
+heroku addons:add redistogo
+heroku addons:add sendgrid
+heroku addons:add mongolab
+
+heroku config:add DEVISE_SECRET_KEY="$(bundle exec rake secret)"
+heroku config:add DEVISE_PEPPER="$(bundle exec rake secret)"
+heroku config:add SECRET_KEY_BASE="$(bundle exec rake secret)"
+heroku config:set REDIS_URL=`heroku config:get REDISTOGO_URL`
+heroku config:set REDIS_PROVIDER=`heroku config:get REDISTOGO_URL`
+
+
+heroku config:set AUTH_FACEBOOK_KEY=1568626176714459
+heroku config:set AUTH_FACEBOOK_SECRET=876ef200afbd90c203ded30d780b45c4
+heroku config:set AUTH_TWITTER_KEY=kDRW2cZg30N7i7Kb1V9T0fmy7
+heroku config:set AUTH_TWITTER_SECRET=gQyB5k44B6CK2MSZDtg5byM7SCUjU6REZ7ztV2Fxu0dCyyBZwi
+
+heroku config:set MAIL_HOST=https://play-in-peel.herokuapp.com
+heroku config:set MAIL_PROVIDER_ADDRESS=smtp.elasticemail.com
+heroku config:set MAIL_PROVIDER_PASSWORD=df64827f-a295-47ae-9b1d-0a0accb5f179
+heroku config:set MAIL_PROVIDER_USERNAME=df64827f-a295-47ae-9b1d-0a0accb5f179
+heroku config:set SENDGRID_PASSWORD=ysanlf7r
+heroku config:set SENDGRID_USERNAME=app32830937@heroku.com
+heroku run rake db:mongoid:create_indexes
+
+heroku run rake dropbox:authenticate
+
+#rake db:mongoid:remove_indexes
+#rake sidekiq:clear
+ 
+
+Heroku Login detail
+gab.larsen@outlook.com
+gabHeather123
+
+
 
