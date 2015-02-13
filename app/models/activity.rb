@@ -94,7 +94,7 @@ class Activity
 
 
   def self.search_by_facility_name(facilityName)
-    activities = Activity.where(FacilityName: facilityName).limit(10)
+    activities = Activity.where(FacilityName: facilityName)
     search_result = []
     activities.each do |activity|
       search_result << tweak_activity(activity)
@@ -120,7 +120,7 @@ class Activity
       }]
     activity["Organization"] = {
       "Id" => 1, 
-      "Name" => activity['Name'],
+      "Name" => activity['Organization'],
       "GeneralActivityDescription" => activity['Description'],
       "ServiceLink" => "",
       "Activities" => []
@@ -153,6 +153,7 @@ class Activity
 
       facility = facility_query.first
       self['Facility'] = facility.attributes
+      self['Organization'] = facility.attributes['Organization']
       self.location = [ facility.attributes['Lon'].to_f, facility.attributes['Lat'].to_f ]
     end
 

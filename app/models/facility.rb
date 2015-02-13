@@ -8,6 +8,7 @@ class Facility
   field :Phone
   field :Lat
   field :Lon
+  field :Organization
 
   validates :Name, uniqueness: true
 

@@ -67,7 +67,8 @@ class DropboxWorker
 					City: encode(row['City']),
 					Phone: encode(row['Phone']),
 					Lat: row['Latitude'].to_f,
-					Lon: row['Logitude'].to_f
+					Lon: row['Longitude'].to_f,
+					Organization: encode(row['Organization'])
 				})
 			end
 			imported_file = "#{path}#{@@imported_prefix}"

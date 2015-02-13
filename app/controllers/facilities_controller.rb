@@ -11,7 +11,11 @@ class FacilitiesController < ApplicationController
   	facilityName = facility.Name
 
   	callback = params[:callback]
-    search_result = Activity.search_by_facility_name(facilityName)
+    search_result = {
+      Resources: [{
+        Activities: Activity.search_by_facility_name(facilityName)
+      }]
+    }
   	render :text=> "#{callback}(#{search_result.to_json})" and return
 
   end
