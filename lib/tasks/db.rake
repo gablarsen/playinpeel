@@ -10,8 +10,8 @@ namespace :db do
 
 
 	task :import => :environment do
-		Sidekiq::ScheduledSet.new.clear
-		DropboxWorker.perform_async
+		#Sidekiq::ScheduledSet.new.clear
+		DropboxWorker.perform
 	end
-
 end
+
