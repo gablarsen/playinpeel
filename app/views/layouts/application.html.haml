@@ -16,7 +16,10 @@
     %link{:href => "/styles/datepicker.css", :rel => "stylesheet"}/
     %link{:href => "/styles/pcyi.css", :rel => "stylesheet"}/
     %link{:href => "https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/flick/jquery-ui.css", :rel => "stylesheet"}/
-    %script{:src => "https://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20141118162111.86/js/en-us/veapicore.js?_=1", :type => "text/javascript"}
+
+    %script{:charset => "UTF-8", :src => "//ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0", :type => "text/javascript"}
+    %script{:src => "//ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20141118162111.86/js/en-us/veapicore.js", :type => "text/javascript"}
+
     = yield :head
     = render 'layouts/airbrake'
   %body{class: "controller__#{controller_name} action__#{action_name}"}
