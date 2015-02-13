@@ -26,7 +26,7 @@ function displayDate(val){
 }
 
 function displayTime(val){
-    return moment(val).format('h:mm:ss a');
+    return moment(val).format('h:mm a');
 }
 
 function convertToYears(age) {

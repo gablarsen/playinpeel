@@ -77,14 +77,72 @@ class Activity
     primary_conditions << { "Description" => /#{params['k']}/ } unless params['k'].blank?
 
 
-    return Activity
+    activities = Activity
       .where(
         {
           "$and" => primary_conditions
         }
       )
       .page(params['skip'].to_i).per(params['take'].to_i)
-      .geo_near([params['lon'].to_f, params['lat'].to_f]).max_distance(params['rd'].to_i*1609)
+      .geo_near([params['lon'].to_f, params['lat'].to_f]).max_distance(params['rd'].to_i*16093)
+    search_result = []
+    activities.each do |activity|
+      search_result << tweak_activity(activity)
+    end
+    search_result
+  end
+
+
+  def self.search_by_facility_name(facilityName)
+    activities = Activity.where(FacilityName: facilityName).limit(10)
+    search_result = []
+    activities.each do |activity|
+      search_result << tweak_activity(activity)
+    end
+    search_result
+  end
+
+  def self.tweak_activity(activity)
+
+    activity['FacilityName'] = encode(activity['FacilityName'])
+    activity['Name'] = encode(activity['Name'])
+    activity['Description'] = encode(activity['Description'])
+    activity['FeeDescription'] = encode(activity['FeeDescription'])
+
+    activity['Id'] = activity.id.to_s
+    activity['Resource'] = activity.id.to_s
+    activity['Exceptions'] = []
+    activity['Fees'] = [{
+      Cost: activity['Fee'],
+      Description: activity['FeeDescription'],
+      Id: 0,
+      Name: ''
+      }]
+    activity["Organization"] = {
+      "Id" => 1, 
+      "Name" => activity['Name'],
+      "GeneralActivityDescription" => activity['Description'],
+      "ServiceLink" => "",
+      "Activities" => []
+    }
+
+    activity['Facility']['Id'] = activity['Facility']['_id'].to_s
+    
+    activity["Resource"] = {
+      "Id" => 0, 
+      "Activities" => [],
+      "Name" => activity['Name'],
+      "GeneralActivityDescription" => activity['Description'],
+      "Facility" => activity['Facility'],
+      "Location" => [activity['location'][0], activity['location'][1]],
+      "Lat" => activity['location'][1],
+      "Lon" => activity['location'][0],
+    }
+
+    activity["Times"] = [activity["Times"]]
+
+    activity["SearchTags"] = ''
+    activity
   end
 
   private
@@ -103,6 +161,10 @@ class Activity
       value == 'true'
     end
 
+    def self.encode(s)
+      return "" if s==nil
+      return s.force_encoding("ISO-8859-1").encode("UTF-8")
+    end
 
 
 end

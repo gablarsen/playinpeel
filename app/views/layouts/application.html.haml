@@ -34,7 +34,7 @@
 
 
 
-    .container{"data-bind" => "visible: isListVisible"}
+    .container{"data-bind" => "visible: isListVisible", style: "display: none;"}
       / Header Start
       .row
         .col-md-2.col-sm-3.col-xs-3
@@ -239,7 +239,7 @@
               %h1.label.label-primary{"data-bind" => "visible: activity().DropIn"} DROP-IN
               %br/
               %p{"data-bind" => "text: activity().Description"}
-              %p{"data-bind" => "html: activity().Organization.GeneralActivityDescription"}
+              %p.hidden{"data-bind" => "html: activity().Organization.GeneralActivityDescription"}
               %p{"data-bind" => "visible: (activity().Organization.ServiceLink)"}
                 %a{"data-bind" => "attr: {href: activity().Organization.ServiceLink}", :target => "_blank"} Customer Service
             %hr/

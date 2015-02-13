@@ -26,7 +26,8 @@ gem 'airbrake', '~> 3.2.1'         # use with airbrake.io or errbit
 gem 'pg'
 gem 'dalli'                     # memcached
 # gem 'schema_plus'             # add better index and foreign key support
-gem 'jbuilder'
+#gem 'jbuilder'
+gem 'oj'
 gem 'will_paginate_mongoid'
 gem 'mongoid_search', '~> 0.2.8'
 gem "dropbox-api"
