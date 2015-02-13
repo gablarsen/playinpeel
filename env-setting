@@ -45,6 +45,10 @@ heroku run rake dropbox:authenticate
 
 heroku addons:open scheduler
 
+heroku run rake db:clear_activity
+heroku run rake db:clear_facility
+heroku run rake db:import
+
 
 #rake db:mongoid:remove_indexes
 #rake sidekiq:clear

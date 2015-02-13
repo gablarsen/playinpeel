@@ -94,7 +94,7 @@ class Activity
 
 
   def self.search_by_facility_name(facilityName)
-    activities = Activity.where(FacilityName: facilityName)
+    activities = Activity.where(FacilityName: facilityName).limit(10)
     search_result = []
     activities.each do |activity|
       search_result << tweak_activity(activity)
