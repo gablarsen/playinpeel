@@ -74,7 +74,9 @@ class Activity
       },
     ]
 
-    primary_conditions << { "Description" => /#{params['k']}/ } unless params['k'].blank?
+    k = params['k'].gsub(' ', '\s')
+
+    primary_conditions << { "Description" => /#{k}/ } unless k.blank?
 
 
     activities = Activity
