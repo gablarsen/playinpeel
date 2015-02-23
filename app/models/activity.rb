@@ -73,10 +73,10 @@ class Activity
         "$or" => days_condition,
       },
     ]
+    #binding.pry
+    k = params['k'].gsub(',', '|')
 
-    k = params['k'].gsub(' ', '\s')
-
-    primary_conditions << { "Description" => /#{k}/ } unless k.blank?
+    primary_conditions << { "Description" => /(#{k})/ } unless k.blank?
 
 
     activities = Activity
