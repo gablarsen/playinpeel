@@ -172,6 +172,8 @@ class DropboxWorker
 				times[:StartDate] = DateTime::strptime(dt,  '%Y-%m-%dT%H:%M')
 			end
 
+			times[:TimeOfDay] = times[:StartDate].strftime('%p')
+
 			ampm = params[:end][:time].last(2).upcase
 			dt = "#{strpdate(params[:end][:date])}T#{params[:end][:time]}"
 
@@ -181,7 +183,7 @@ class DropboxWorker
 				times[:EndDate] = DateTime::strptime(dt,  '%Y-%m-%dT%H:%M')
 			end
 
-			times[:TimeOfDay] = DateTime::strptime(times[:StartDate],  '%p')
+			
 
 			times
 		end
