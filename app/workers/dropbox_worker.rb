@@ -21,12 +21,15 @@ class DropboxWorker
 			file = get_file(path)
 			next if file == nil?
 			get_csv(file).each do |row|
+				age_start = valid_s(row['Age.Start']).to_i
+				age_end = valid_s(row['Age.End']).to_i
+
 				Activity.create({
 					FacilityName: encode(row['Facility']),
 					Name: encode(row['Activity.Name']),
 					Description: encode(row['Description']),
-					AgeFrom: valid_s(row['Age.Start']).to_i,
-					AgeTo: valid_s(row['Age.End']).to_i,
+					AgeFrom: age_start,
+					AgeTo: age_end,
 					Code: row['Activity.Code'],
 					DropIn: (row['Drop.In']=='Yes')?true:false,
 					Fee: row['Fee'].to_f,
@@ -178,7 +181,7 @@ class DropboxWorker
 				times[:EndDate] = DateTime::strptime(dt,  '%Y-%m-%dT%H:%M')
 			end
 
-			times[:TimeOfDay] = params[:start][:time].last(2)
+			times[:TimeOfDay] = times[:StartDate].strptime("%p")
 
 			times
 		end
