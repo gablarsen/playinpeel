@@ -181,7 +181,7 @@ class DropboxWorker
 				times[:EndDate] = DateTime::strptime(dt,  '%Y-%m-%dT%H:%M')
 			end
 
-			times[:TimeOfDay] = times[:StartDate].strptime("%p")
+			times[:TimeOfDay] = DateTime::strptime(times[:StartDate],  '%p')
 
 			times
 		end
