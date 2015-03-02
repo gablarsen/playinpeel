@@ -21,10 +21,11 @@ class DropboxWorker
 			file = get_file(path)
 			next if file == nil?
 			get_csv(file).each do |row|
+				next if row['Days']==nil
 				age_start = valid_s(row['Age.Start']).to_i
 				age_end = valid_s(row['Age.End']).to_i
 
-				Activity.create({
+				activity_data = ({
 					FacilityName: encode(row['Facility']),
 					Name: encode(row['Activity.Name']),
 					Description: encode(row['Description']),
@@ -46,6 +47,8 @@ class DropboxWorker
 						}
 					})
 				})
+				puts activity_data
+				#Activity.create activity_data
 			end
 			imported_file = "#{path}#{@@imported_prefix}"
 			begin 
@@ -119,7 +122,7 @@ class DropboxWorker
 			end
 		end
 
-		def get_times(params)
+		def get_times(params, row={})
 			days = params[:days]
 			times = {}
 
@@ -141,13 +144,15 @@ class DropboxWorker
 			}
 
 			times = ret_false
-
-			input.split(', ').each do |r|
-			    if input.upcase == 'DAILY'
-			        days1.each do |day|
-			            times[day] = true
-			        end
-			    else
+			if input == nil
+				#binding.pry
+			end
+	    if input.upcase == 'DAILY'
+	        days1.each do |day|
+	            times[day] = true
+	        end
+	    else
+				input.split(', ').each do |r|
 			        unless days.index(r) == nil
 			            times["#{days1[days.index(r)]}"] = true
 			        else
