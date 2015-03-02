@@ -47,8 +47,8 @@ class DropboxWorker
 						}
 					})
 				})
-				puts activity_data
-				#Activity.create activity_data
+				#puts activity_data
+				Activity.create activity_data
 			end
 			imported_file = "#{path}#{@@imported_prefix}"
 			begin 
